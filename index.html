@@ -1,1 +1,1110 @@
-hello world
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>库仑定律｜高中物理课件</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;600&family=Newsreader:opsz,wght@6..72,400&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* === 主题变量：钴蓝方格 / Cobalt Grid === */
+        :root {
+            --paper: #F0EBDE;
+            --paper-2: #E6E0CE;
+            --ink: #1F2BE0;
+            --ink-soft: #5560E5;
+            --grid: rgba(31, 43, 224, 0.10);
+            --ink-faint: rgba(31, 43, 224, 0.18);
+            --stage-bg: #D8D1C1;
+            --slide-bg: #F0EBDE;
+            --font-display: "Newsreader", "Noto Serif SC", serif;
+            --font-body: "Hanken Grotesk", "Noto Serif SC", sans-serif;
+            --font-mono: "DM Mono", monospace;
+            --ease: cubic-bezier(.16, 1, .3, 1);
+        }
+
+        * { box-sizing: border-box; }
+
+        /* ===========================================
+           FIXED 16:9 STAGE: MANDATORY BASE STYLES
+           Include this ENTIRE file in every presentation.
+           Slides are authored at 1920×1080 and scaled as a whole.
+           =========================================== */
+
+        /* 1. Lock the browser viewport */
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            overflow: hidden;
+            background: var(--stage-bg, #000);
+        }
+
+        /* 2. Full-window deck viewport */
+        .deck-viewport {
+            position: fixed;
+            inset: 0;
+            overflow: hidden;
+            background: var(--stage-bg, #000);
+        }
+
+        /* 3. Fixed 16:9 design canvas.
+           JavaScript sets transform: translate(...) scale(...). */
+        .deck-stage {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            transform-origin: 0 0;
+            background: var(--slide-bg, #fff);
+        }
+
+        /* 4. Slides stack inside the fixed stage.
+           Content must be laid out at 1920×1080, not reflowed per device. */
+        .slide {
+            position: absolute;
+            inset: 0;
+            width: 1920px;
+            height: 1080px;
+            overflow: hidden;
+            display: block;
+            visibility: hidden;
+            opacity: 0;
+            pointer-events: none;
+            background: var(--slide-bg, #fff);
+        }
+
+        .slide.active,
+        .slide.visible {
+            visibility: visible;
+            opacity: 1;
+            pointer-events: auto;
+            z-index: 1;
+        }
+
+        /* 5. Keep media inside authored slide bounds */
+        img,
+        video,
+        canvas,
+        svg {
+            max-width: 100%;
+            max-height: 100%;
+        }
+
+        /* 6. Presentation chrome stays outside the slide design system */
+        .deck-controls {
+            position: fixed;
+            left: 50%;
+            bottom: 22px;
+            transform: translateX(-50%);
+            z-index: 1000;
+        }
+
+        /* 7. Print one fixed-size slide per page */
+        @media print {
+            html,
+            body {
+                width: 1920px;
+                height: auto;
+                overflow: visible;
+                background: #fff;
+            }
+
+            .deck-viewport {
+                position: static;
+                overflow: visible;
+                background: #fff;
+            }
+
+            .deck-stage {
+                position: static;
+                width: auto;
+                height: auto;
+                transform: none !important;
+                background: none;
+            }
+
+            .slide {
+                position: relative;
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+                pointer-events: auto !important;
+                width: 1920px;
+                height: 1080px;
+                break-after: page;
+                page-break-after: always;
+            }
+
+            .slide:last-child {
+                break-after: auto;
+                page-break-after: auto;
+            }
+
+            .deck-controls {
+                display: none !important;
+            }
+        }
+
+        /* 8. Reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            *,
+            *::before,
+            *::after {
+                animation-duration: 0.01ms !important;
+                transition-duration: 0.2s !important;
+            }
+        }
+
+        /* === 永久画布：方格纸、发丝线和页码 === */
+        .slide {
+            color: var(--ink);
+            font-family: var(--font-body);
+            transition: opacity 280ms ease;
+            background-color: var(--paper);
+            background-image:
+                linear-gradient(to right, var(--grid) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
+            background-size: 42px 42px;
+        }
+        .hairlines::before,
+        .hairlines::after {
+            content: "";
+            position: absolute;
+            z-index: 12;
+            left: 70px;
+            right: 70px;
+            height: 2px;
+            background: var(--ink);
+        }
+        .hairlines::before { top: 28px; }
+        .hairlines::after { bottom: 25px; }
+        .page-num,
+        .nav-hint {
+            position: absolute;
+            bottom: 53px;
+            z-index: 15;
+            font: 400 17px/1 var(--font-mono);
+            letter-spacing: .08em;
+        }
+        .page-num { right: 72px; }
+        .nav-hint { left: 72px; opacity: .45; }
+        .frame {
+            position: absolute;
+            inset: 86px 95px 120px;
+            z-index: 4;
+        }
+        .topbar {
+            height: 128px;
+            border-bottom: 3px solid var(--ink);
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+        }
+        .topbar h2 {
+            font: 400 82px/.95 var(--font-display);
+            margin: 0;
+            letter-spacing: -.01em;
+        }
+        .lab-tag,
+        .kicker {
+            font: 600 20px/1.2 var(--font-body);
+            letter-spacing: .16em;
+        }
+        .lab-tag { padding-top: 20px; text-align: right; }
+        .mono { font-family: var(--font-mono); letter-spacing: .05em; }
+
+        /* === 入场动画：编辑式分层揭示 === */
+        .reveal,
+        .reveal-left,
+        .reveal-scale {
+            opacity: 0;
+            transition: opacity .65s var(--ease), transform .65s var(--ease);
+        }
+        .reveal { transform: translateY(32px); }
+        .reveal-left { transform: translateX(-44px); }
+        .reveal-scale { transform: scale(.94); }
+        .visible .reveal,
+        .visible .reveal-left,
+        .visible .reveal-scale { opacity: 1; transform: none; }
+        .d1 { transition-delay: .08s; }
+        .d2 { transition-delay: .18s; }
+        .d3 { transition-delay: .30s; }
+        .d4 { transition-delay: .42s; }
+
+        /* === 像素故障装饰：封面、概念页与结尾页 === */
+        .glitch {
+            position: absolute;
+            z-index: 2;
+            top: 0;
+            right: 0;
+            width: 520px;
+            height: 1080px;
+            opacity: .72;
+            pointer-events: none;
+            background:
+                repeating-linear-gradient(90deg, transparent 0 15px, var(--ink) 15px 18px);
+            clip-path: polygon(40% 0,100% 0,100% 100%,12% 100%,12% 88%,22% 88%,22% 74%,5% 74%,5% 58%,30% 58%,30% 40%,15% 40%,15% 20%,40% 20%);
+        }
+        .qr {
+            position: absolute;
+            z-index: 7;
+            width: 112px;
+            height: 112px;
+            display: grid;
+            grid-template-columns: repeat(8, 1fr);
+            gap: 3px;
+            padding: 6px;
+            background: var(--paper);
+            box-shadow: 0 0 0 2px var(--paper);
+        }
+        .qr i { background: transparent; }
+        .qr i.on { background: var(--ink); }
+
+        /* === Slide 1：封面 === */
+        .cover-copy {
+            position: absolute;
+            left: 115px;
+            top: 190px;
+            width: 1120px;
+            z-index: 5;
+        }
+        .cover-copy .kicker { margin-bottom: 38px; }
+        .cover-copy h1 {
+            font: 700 174px/.98 var(--font-display);
+            letter-spacing: 0;
+            margin: 0;
+        }
+        .cover-copy p {
+            margin: 35px 0 0;
+            font: 400 35px/1.5 var(--font-display);
+        }
+        .cover-formula {
+            position: absolute;
+            left: 118px;
+            bottom: 130px;
+            z-index: 5;
+            font: 500 35px/1 var(--font-mono);
+        }
+        .cover .qr { right: 200px; top: 132px; }
+
+        /* === Slide 2：问题引入 === */
+        .question-layout {
+            display: grid;
+            grid-template-columns: 1fr 720px;
+            gap: 95px;
+            height: calc(100% - 158px);
+            padding-top: 62px;
+        }
+        .big-question {
+            font: 400 78px/1.18 var(--font-display);
+            margin: 15px 0 36px;
+        }
+        .question-note {
+            width: 780px;
+            border-top: 2px solid var(--ink);
+            padding-top: 23px;
+            font-size: 27px;
+            line-height: 1.65;
+        }
+        .charge-scene {
+            position: relative;
+            height: 520px;
+            border-left: 2px solid var(--ink);
+        }
+        .charge {
+            position: absolute;
+            top: 155px;
+            width: 158px;
+            height: 158px;
+            border: 5px solid var(--ink);
+            display: grid;
+            place-items: center;
+            font: 700 80px/1 var(--font-display);
+            background: var(--paper);
+        }
+        .charge.left { left: 70px; }
+        .charge.right { right: 70px; }
+        .distance {
+            position: absolute;
+            left: 228px;
+            right: 228px;
+            top: 234px;
+            border-top: 4px solid var(--ink);
+        }
+        .distance::before,
+        .distance::after {
+            content: "";
+            position: absolute;
+            top: -10px;
+            width: 16px;
+            height: 16px;
+            border-top: 4px solid var(--ink);
+        }
+        .distance::before { left: 0; border-left: 4px solid var(--ink); transform: rotate(-45deg); }
+        .distance::after { right: 0; border-right: 4px solid var(--ink); transform: rotate(45deg); }
+        .distance b {
+            position: absolute;
+            left: 50%;
+            transform: translate(-50%, -52px);
+            font: 500 28px var(--font-mono);
+            background: var(--paper);
+            padding: 0 18px;
+        }
+        .question-marks {
+            position: absolute;
+            bottom: 10px;
+            left: 55px;
+            right: 55px;
+            display: flex;
+            justify-content: space-between;
+            font: 400 24px var(--font-mono);
+        }
+
+        /* === Slide 3：规律发现 === */
+        .relations {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 68px;
+            height: calc(100% - 155px);
+            padding-top: 55px;
+        }
+        .relation-panel {
+            border-bottom: 2px solid var(--ink);
+            position: relative;
+            padding: 28px 22px 30px;
+        }
+        .relation-panel .num {
+            font: 400 168px/.85 var(--font-display);
+            float: left;
+            margin-right: 25px;
+        }
+        .relation-panel h3 {
+            font: 400 48px/1.15 var(--font-display);
+            margin: 12px 0 12px;
+        }
+        .relation-panel p {
+            font-size: 24px;
+            line-height: 1.6;
+            margin: 0;
+        }
+        .mini-bars {
+            position: absolute;
+            left: 25px;
+            right: 25px;
+            bottom: 42px;
+            height: 220px;
+            display: flex;
+            gap: 38px;
+            align-items: flex-end;
+        }
+        .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 13px; }
+        .bar {
+            width: 72px;
+            background: repeating-linear-gradient(to top, var(--ink) 0 12px, transparent 12px 17px);
+        }
+        .bar-label { font: 400 18px var(--font-mono); }
+        .r-graph {
+            position: absolute;
+            left: 45px;
+            right: 35px;
+            bottom: 36px;
+            height: 250px;
+            border-left: 3px solid var(--ink);
+            border-bottom: 3px solid var(--ink);
+        }
+        .curve {
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 100%;
+            height: 100%;
+        }
+        .curve path {
+            fill: none;
+            stroke: var(--ink);
+            stroke-width: 8;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            transition: stroke-dashoffset 1.5s .4s var(--ease);
+        }
+        .visible .curve path { stroke-dashoffset: 0; }
+
+        /* === Slide 4：公式与条件 === */
+        .formula-hero {
+            height: 330px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 2px solid var(--ink);
+            font: 400 112px/1 var(--font-display);
+        }
+        .formula-hero .frac {
+            display: inline-grid;
+            grid-template-rows: auto auto;
+            text-align: center;
+            margin-left: 32px;
+        }
+        .frac span:first-child { border-bottom: 5px solid var(--ink); padding: 0 24px 12px; }
+        .frac span:last-child { padding-top: 10px; }
+        .symbol-grid {
+            height: 342px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            border-bottom: 2px solid var(--ink);
+        }
+        .symbol {
+            padding: 40px 28px 20px;
+            border-right: 1px solid var(--ink-faint);
+        }
+        .symbol:last-child { border-right: 0; }
+        .symbol b {
+            display: block;
+            font: 400 66px/1 var(--font-display);
+            margin-bottom: 22px;
+        }
+        .symbol p { font-size: 22px; line-height: 1.55; margin: 0; }
+        .conditions {
+            padding-top: 25px;
+            display: flex;
+            gap: 50px;
+            font-size: 23px;
+        }
+        .conditions strong { font: 500 20px var(--font-mono); }
+
+        /* === Slide 5：方向判断 === */
+        .direction-wrap {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 45px;
+            height: calc(100% - 155px);
+            padding-top: 44px;
+        }
+        .direction-case {
+            position: relative;
+            border-bottom: 2px solid var(--ink);
+        }
+        .direction-case h3 {
+            font: 400 47px var(--font-display);
+            margin: 0;
+        }
+        .direction-case p { font-size: 24px; margin-top: 12px; }
+        .pair {
+            position: absolute;
+            left: 25px;
+            right: 25px;
+            top: 210px;
+            height: 245px;
+        }
+        .pair .charge { top: 46px; width: 140px; height: 140px; font-size: 68px; }
+        .pair .charge.left { left: 95px; }
+        .pair .charge.right { right: 95px; }
+        .force-arrow {
+            position: absolute;
+            top: 113px;
+            width: 155px;
+            border-top: 7px solid var(--ink);
+            transition: transform .9s .4s var(--ease);
+        }
+        .force-arrow::after {
+            content: "";
+            position: absolute;
+            top: -14px;
+            border: 11px solid transparent;
+        }
+        .attract .a-left { left: 250px; }
+        .attract .a-left::after { right: -13px; border-left-color: var(--ink); }
+        .attract .a-right { right: 250px; }
+        .attract .a-right::after { left: -13px; border-right-color: var(--ink); }
+        .repel .a-left { left: 55px; }
+        .repel .a-left::after { left: -13px; border-right-color: var(--ink); }
+        .repel .a-right { right: 55px; }
+        .repel .a-right::after { right: -13px; border-left-color: var(--ink); }
+        .visible .force-arrow { transform: scaleX(1.13); }
+        .direction-rule {
+            position: absolute;
+            bottom: 45px;
+            left: 25px;
+            right: 25px;
+            font: 400 28px/1.5 var(--font-mono);
+        }
+
+        /* === Slide 6：矢量与叠加 === */
+        .superposition {
+            display: grid;
+            grid-template-columns: 730px 1fr;
+            gap: 85px;
+            height: calc(100% - 155px);
+            padding-top: 45px;
+        }
+        .vector-board {
+            position: relative;
+            height: 570px;
+            border-right: 2px solid var(--ink);
+        }
+        .vector-board .charge { width: 118px; height: 118px; font-size: 55px; top: auto; }
+        .q0 { left: 305px; top: 245px !important; }
+        .q1 { left: 30px; top: 28px !important; }
+        .q2 { left: 35px; top: 430px !important; }
+        .vector {
+            position: absolute;
+            height: 5px;
+            background: var(--ink);
+            transform-origin: left center;
+        }
+        .vector::after {
+            content: "";
+            position: absolute;
+            right: -4px;
+            top: -8px;
+            border: 10px solid transparent;
+            border-left-color: var(--ink);
+        }
+        .v1 { left: 370px; top: 290px; width: 235px; transform: rotate(-34deg); }
+        .v2 { left: 370px; top: 318px; width: 235px; transform: rotate(34deg); }
+        .vsum { left: 370px; top: 304px; width: 315px; height: 9px; }
+        .vector-label { position: absolute; font: 500 23px var(--font-mono); }
+        .l1 { left: 530px; top: 202px; }
+        .l2 { left: 530px; top: 383px; }
+        .ls { left: 575px; top: 325px; }
+        .steps { padding: 20px 0 0; }
+        .step {
+            display: grid;
+            grid-template-columns: 70px 1fr;
+            border-bottom: 1px solid var(--ink-faint);
+            padding: 21px 0;
+        }
+        .step b { font: 400 28px var(--font-mono); }
+        .step h3 { font: 400 38px/1.2 var(--font-display); margin: 0 0 8px; }
+        .step p { font-size: 22px; line-height: 1.5; margin: 0; }
+        .vector-equation { font: 400 44px var(--font-display); margin-top: 35px; }
+
+        /* === Slide 7：例题 === */
+        .example-grid {
+            display: grid;
+            grid-template-columns: 670px 1fr;
+            gap: 62px;
+            height: calc(100% - 155px);
+            padding-top: 40px;
+        }
+        .example-given {
+            border-right: 2px solid var(--ink);
+            padding-right: 48px;
+        }
+        .example-given h3,
+        .solution h3 { font: 400 43px var(--font-display); margin: 0 0 25px; }
+        .given-row {
+            display: grid;
+            grid-template-columns: 115px 1fr;
+            padding: 19px 0;
+            border-bottom: 1px solid var(--ink-faint);
+            font-size: 24px;
+        }
+        .given-row b { font-family: var(--font-mono); }
+        .example-pair {
+            height: 230px;
+            position: relative;
+            margin-top: 28px;
+        }
+        .example-pair .charge { width: 116px; height: 116px; font-size: 51px; top: 52px; }
+        .example-pair .charge.left { left: 45px; }
+        .example-pair .charge.right { right: 45px; }
+        .example-pair .distance { left: 161px; right: 161px; top: 109px; }
+        .solution-line {
+            display: grid;
+            grid-template-columns: 62px 1fr;
+            gap: 20px;
+            border-bottom: 1px solid var(--ink-faint);
+            padding: 20px 0;
+        }
+        .solution-line .n { font: 400 24px var(--font-mono); }
+        .solution-line p { font-size: 24px; line-height: 1.5; margin: 0; }
+        .calculation {
+            font: 400 38px/1.6 var(--font-display);
+        }
+        .answer {
+            margin-top: 34px;
+            border: 4px solid var(--ink);
+            padding: 22px 28px;
+            font: 400 33px/1.3 var(--font-display);
+        }
+
+        /* === Slide 8：易错点 === */
+        .mistakes {
+            height: calc(100% - 155px);
+            padding-top: 34px;
+        }
+        .mistake-row {
+            display: grid;
+            grid-template-columns: 115px 390px 1fr;
+            align-items: center;
+            min-height: 142px;
+            border-bottom: 1px solid var(--ink-faint);
+        }
+        .mistake-row .no { font: 400 28px var(--font-mono); }
+        .mistake-row h3 { font: 400 36px/1.2 var(--font-display); margin: 0; }
+        .mistake-row p { font-size: 23px; line-height: 1.55; margin: 0; }
+        .mistake-row strong { font-family: var(--font-mono); }
+
+        /* === Slide 9：课堂收束 === */
+        .closing-copy {
+            position: absolute;
+            right: 150px;
+            top: 180px;
+            width: 1220px;
+            text-align: right;
+            z-index: 6;
+        }
+        .closing-copy .kicker { margin-bottom: 36px; }
+        .closing-copy h2 {
+            font: 700 128px/1.02 var(--font-display);
+            margin: 0;
+        }
+        .closing-summary {
+            position: absolute;
+            right: 155px;
+            bottom: 150px;
+            z-index: 6;
+            width: 1180px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            border-top: 3px solid var(--ink);
+        }
+        .closing-summary div {
+            padding: 28px 25px;
+            border-left: 1px solid var(--ink-faint);
+        }
+        .closing-summary b { display: block; font: 500 20px var(--font-mono); margin-bottom: 14px; }
+        .closing-summary span { font: 400 28px/1.35 var(--font-display); }
+        .closing .glitch { left: 0; right: auto; transform: scaleX(-1); width: 450px; }
+
+        /* === 进度与编辑控件：位于舞台之外 === */
+        .progress {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            height: 4px;
+            background: var(--ink);
+            z-index: 9000;
+            transition: width .3s ease;
+        }
+        .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
+        .edit-toggle {
+            position: fixed;
+            top: 14px;
+            left: 14px;
+            width: 48px;
+            height: 48px;
+            border: 2px solid var(--ink);
+            background: var(--paper);
+            color: var(--ink);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .3s ease;
+            z-index: 10001;
+            cursor: pointer;
+        }
+        .edit-toggle.show,
+        .edit-toggle.active { opacity: 1; pointer-events: auto; }
+        [contenteditable="true"] { outline: 3px dashed var(--ink-soft); outline-offset: 5px; cursor: text; }
+        .edit-toast {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 10002;
+            background: var(--ink);
+            color: var(--paper);
+            padding: 12px 22px;
+            font: 500 14px var(--font-mono);
+            opacity: 0;
+            transition: opacity .25s;
+            pointer-events: none;
+        }
+        .edit-toast.show { opacity: 1; }
+    </style>
+</head>
+<body>
+    <div class="deck-viewport">
+        <main class="deck-stage" id="deckStage" aria-label="库仑定律高中物理演示文稿">
+
+            <!-- === 01 封面：以两色印刷风格建立主题 === -->
+            <section class="slide cover active visible">
+                <div class="hairlines"></div>
+                <div class="glitch"></div>
+                <div class="qr" aria-hidden="true"></div>
+                <div class="cover-copy">
+                    <div class="kicker reveal-left d1">高中物理 · 静电场</div>
+                    <h1 class="reveal d2" data-edit>库仑定律</h1>
+                    <p class="reveal d3" data-edit>寻找点电荷之间作用力的规律</p>
+                </div>
+                <div class="cover-formula reveal d4">F ∝ q₁q₂　·　F ∝ 1/r²</div>
+                <div class="nav-hint">← → / SPACE / SWIPE</div>
+                <div class="page-num">01 / 09</div>
+            </section>
+
+            <!-- === 02 问题引入：先建立变量意识 === -->
+            <section class="slide">
+                <div class="hairlines"></div>
+                <div class="frame">
+                    <header class="topbar">
+                        <h2 class="reveal-left" data-edit>什么决定静电力？</h2>
+                        <div class="lab-tag reveal">观察变量<br><span class="mono">q₁ · q₂ · r</span></div>
+                    </header>
+                    <div class="question-layout">
+                        <div>
+                            <div class="kicker reveal d1">从一个简单模型开始</div>
+                            <div class="big-question reveal d2" data-edit>两个带电小球之间的力，会随着什么改变？</div>
+                            <div class="question-note reveal d3" data-edit>控制变量：电荷量越大，作用力怎样变化？距离越远，作用力又怎样变化？</div>
+                        </div>
+                        <div class="charge-scene reveal-scale d2">
+                            <div class="charge left">+</div>
+                            <div class="charge right">+</div>
+                            <div class="distance"><b>r</b></div>
+                            <div class="question-marks"><span>电荷量 q₁</span><span>电荷量 q₂</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-hint">先猜想，再找规律</div><div class="page-num">02 / 09</div>
+            </section>
+
+            <!-- === 03 比例规律：用数据感呈现正比与平方反比 === -->
+            <section class="slide">
+                <div class="hairlines"></div>
+                <div class="frame">
+                    <header class="topbar">
+                        <h2 class="reveal-left" data-edit>两个关键比例</h2>
+                        <div class="lab-tag reveal">控制变量法<br><span class="mono">PROPORTION</span></div>
+                    </header>
+                    <div class="relations">
+                        <article class="relation-panel reveal d1">
+                            <span class="num">01</span>
+                            <h3 data-edit>电荷量：乘积越大，力越大</h3>
+                            <p data-edit>距离不变时，静电力与两个电荷量的乘积成正比。</p>
+                            <div class="mini-bars" aria-label="电荷乘积与静电力的正比关系">
+                                <div class="bar-group"><div class="bar" style="height:60px"></div><div class="bar-label">1×</div></div>
+                                <div class="bar-group"><div class="bar" style="height:120px"></div><div class="bar-label">2×</div></div>
+                                <div class="bar-group"><div class="bar" style="height:180px"></div><div class="bar-label">3×</div></div>
+                                <div class="bar-group"><div class="bar" style="height:220px"></div><div class="bar-label">4×</div></div>
+                            </div>
+                        </article>
+                        <article class="relation-panel reveal d2">
+                            <span class="num">02</span>
+                            <h3 data-edit>距离：越远，力衰减得越快</h3>
+                            <p data-edit>电荷量不变时，静电力与距离的平方成反比。</p>
+                            <div class="r-graph">
+                                <svg class="curve" viewBox="0 0 700 250" preserveAspectRatio="none" aria-label="平方反比曲线">
+                                    <path d="M15,15 C80,55 110,125 170,165 C260,220 430,228 690,232"/>
+                                </svg>
+                                <span class="mono" style="position:absolute;left:-35px;top:-16px;font-size:20px">F</span>
+                                <span class="mono" style="position:absolute;right:-4px;bottom:-38px;font-size:20px">r</span>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="nav-hint">F ∝ q₁q₂　　F ∝ 1/r²</div><div class="page-num">03 / 09</div>
+            </section>
+
+            <!-- === 04 定律公式：符号解释与适用条件 === -->
+            <section class="slide">
+                <div class="hairlines"></div>
+                <div class="frame">
+                    <header class="topbar">
+                        <h2 class="reveal-left" data-edit>库仑定律</h2>
+                        <div class="lab-tag reveal">真空中的点电荷<br><span class="mono">COULOMB'S LAW</span></div>
+                    </header>
+                    <div class="formula-hero reveal-scale d1">
+                        <span>F = k</span>
+                        <span class="frac"><span>|q₁q₂|</span><span>r²</span></span>
+                    </div>
+                    <div class="symbol-grid">
+                        <div class="symbol reveal d1"><b>F</b><p data-edit>静电力大小<br>单位：N</p></div>
+                        <div class="symbol reveal d2"><b>q₁, q₂</b><p data-edit>点电荷的电荷量<br>单位：C</p></div>
+                        <div class="symbol reveal d3"><b>r</b><p data-edit>两点电荷间距离<br>单位：m</p></div>
+                        <div class="symbol reveal d4"><b>k</b><p data-edit>静电力常量<br>9.0×10⁹ N·m²/C²</p></div>
+                    </div>
+                    <div class="conditions reveal d4">
+                        <span><strong>条件 01</strong>　真空中</span>
+                        <span><strong>条件 02</strong>　静止点电荷</span>
+                        <span><strong>近似</strong>　带电体尺寸远小于间距时可视为点电荷</span>
+                    </div>
+                </div>
+                <div class="nav-hint">大小由公式算，方向另作判断</div><div class="page-num">04 / 09</div>
+            </section>
+
+            <!-- === 05 力的方向：同斥异吸，沿连线 === -->
+            <section class="slide">
+                <div class="hairlines"></div>
+                <div class="frame">
+                    <header class="topbar">
+                        <h2 class="reveal-left" data-edit>力的方向怎么判？</h2>
+                        <div class="lab-tag reveal">作用线<br><span class="mono">沿两电荷连线</span></div>
+                    </header>
+                    <div class="direction-wrap">
+                        <article class="direction-case repel reveal d1">
+                            <h3 data-edit>同种电荷：相互排斥</h3>
+                            <p>“+ +” 或 “− −”</p>
+                            <div class="pair">
+                                <div class="charge left">+</div><div class="charge right">+</div>
+                                <div class="force-arrow a-left"></div><div class="force-arrow a-right"></div>
+                            </div>
+                            <div class="direction-rule">F₁₂ 与 F₂₁ 大小相等、方向相反</div>
+                        </article>
+                        <article class="direction-case attract reveal d2">
+                            <h3 data-edit>异种电荷：相互吸引</h3>
+                            <p>“+ −”</p>
+                            <div class="pair">
+                                <div class="charge left">+</div><div class="charge right">−</div>
+                                <div class="force-arrow a-left"></div><div class="force-arrow a-right"></div>
+                            </div>
+                            <div class="direction-rule">先画受力对象，再沿连线指向或背离</div>
+                        </article>
+                    </div>
+                </div>
+                <div class="nav-hint">口诀：同斥异吸，力沿连线</div><div class="page-num">05 / 09</div>
+            </section>
+
+            <!-- === 06 多电荷问题：遵守独立作用与矢量叠加 === -->
+            <section class="slide">
+                <div class="hairlines"></div>
+                <div class="frame">
+                    <header class="topbar">
+                        <h2 class="reveal-left" data-edit>多个电荷怎么办？</h2>
+                        <div class="lab-tag reveal">矢量叠加<br><span class="mono">SUPERPOSITION</span></div>
+                    </header>
+                    <div class="superposition">
+                        <div class="vector-board reveal-scale d1">
+                            <div class="charge q0">+</div>
+                            <div class="charge q1">+</div>
+                            <div class="charge q2">+</div>
+                            <div class="vector v1"></div><span class="vector-label l1">F₁</span>
+                            <div class="vector v2"></div><span class="vector-label l2">F₂</span>
+                            <div class="vector vsum"></div><span class="vector-label ls">F合</span>
+                        </div>
+                        <div class="steps">
+                            <div class="step reveal d1"><b>01</b><div><h3 data-edit>分别计算</h3><p>每一对电荷之间都独立遵守库仑定律。</p></div></div>
+                            <div class="step reveal d2"><b>02</b><div><h3 data-edit>分别定向</h3><p>对指定研究对象，画出每个静电力的方向。</p></div></div>
+                            <div class="step reveal d3"><b>03</b><div><h3 data-edit>矢量合成</h3><p>同一直线代数相加；不共线用平行四边形法则。</p></div></div>
+                            <div class="vector-equation reveal d4">F合 = F₁ + F₂ + ···</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-hint">每个力独立存在，合力遵守矢量运算</div><div class="page-num">06 / 09</div>
+            </section>
+
+            <!-- === 07 典型例题：完整展示单位、代入、方向 === -->
+            <section class="slide">
+                <div class="hairlines"></div>
+                <div class="frame">
+                    <header class="topbar">
+                        <h2 class="reveal-left" data-edit>典型例题</h2>
+                        <div class="lab-tag reveal">单对点电荷<br><span class="mono">EXAMPLE 01</span></div>
+                    </header>
+                    <div class="example-grid">
+                        <div class="example-given reveal d1">
+                            <h3 data-edit>已知与模型</h3>
+                            <div class="given-row"><b>q₁</b><span>+2.0 μC</span></div>
+                            <div class="given-row"><b>q₂</b><span>−3.0 μC</span></div>
+                            <div class="given-row"><b>r</b><span>0.30 m</span></div>
+                            <div class="example-pair">
+                                <div class="charge left">+</div><div class="charge right">−</div>
+                                <div class="distance"><b>0.30 m</b></div>
+                            </div>
+                        </div>
+                        <div class="solution reveal d2">
+                            <h3 data-edit>求：静电力的大小与方向</h3>
+                            <div class="solution-line"><span class="n">01</span><p data-edit>单位统一：2.0 μC = 2.0×10⁻⁶ C；3.0 μC = 3.0×10⁻⁶ C</p></div>
+                            <div class="solution-line"><span class="n">02</span><p class="calculation">F = 9.0×10⁹ × <span style="white-space:nowrap">2.0×10⁻⁶×3.0×10⁻⁶</span> / 0.30²</p></div>
+                            <div class="solution-line"><span class="n">03</span><p class="calculation">F = 0.60 N</p></div>
+                            <div class="answer" data-edit>答案：力的大小为 0.60 N；异种电荷相互吸引，方向沿两电荷连线。</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="nav-hint">单位 → 大小 → 方向</div><div class="page-num">07 / 09</div>
+            </section>
+
+            <!-- === 08 易错点：用清单式复盘概念边界 === -->
+            <section class="slide">
+                <div class="hairlines"></div>
+                <div class="frame">
+                    <header class="topbar">
+                        <h2 class="reveal-left" data-edit>四个高频易错点</h2>
+                        <div class="lab-tag reveal">检查清单<br><span class="mono">BEFORE SUBMIT</span></div>
+                    </header>
+                    <div class="mistakes">
+                        <div class="mistake-row reveal d1"><span class="no">01</span><h3 data-edit>忘记平方</h3><p>距离变为 2 倍，静电力变为原来的 <strong>1/4</strong>，不是 1/2。</p></div>
+                        <div class="mistake-row reveal d2"><span class="no">02</span><h3 data-edit>单位没有换算</h3><p>μC 要乘 <strong>10⁻⁶</strong>，nC 要乘 <strong>10⁻⁹</strong>；距离统一用 m。</p></div>
+                        <div class="mistake-row reveal d3"><span class="no">03</span><h3 data-edit>正负号直接代公式</h3><p>公式中的绝对值计算<strong>大小</strong>；电荷正负用于判断<strong>方向</strong>。</p></div>
+                        <div class="mistake-row reveal d4"><span class="no">04</span><h3 data-edit>忽略适用模型</h3><p>先确认能否看作点电荷；多个电荷还要进行<strong>矢量叠加</strong>。</p></div>
+                    </div>
+                </div>
+                <div class="nav-hint">公式不难，模型、单位和方向最关键</div><div class="page-num">08 / 09</div>
+            </section>
+
+            <!-- === 09 总结：用三个词收束课堂 === -->
+            <section class="slide closing">
+                <div class="hairlines"></div>
+                <div class="glitch"></div>
+                <div class="closing-copy">
+                    <div class="kicker reveal d1">今天带走的核心</div>
+                    <h2 class="reveal d2" data-edit>大小看公式<br>方向看电性<br>多个做叠加</h2>
+                </div>
+                <div class="closing-summary reveal d3">
+                    <div><b>MAGNITUDE</b><span>F = k|q₁q₂| / r²</span></div>
+                    <div><b>DIRECTION</b><span>同斥异吸，沿连线</span></div>
+                    <div><b>SUPERPOSITION</b><span>分别计算，矢量合成</span></div>
+                </div>
+                <div class="nav-hint">按 R 重新开始</div><div class="page-num">09 / 09</div>
+            </section>
+        </main>
+    </div>
+
+    <!-- === 舞台外辅助控件 === -->
+    <div class="progress" id="progress"></div>
+    <div class="edit-hotzone" title="编辑模式"></div>
+    <button class="edit-toggle" id="editToggle" title="编辑模式（E）" aria-label="切换编辑模式">✎</button>
+    <div class="edit-toast" id="editToast">编辑模式</div>
+
+    <script>
+        /* === QR 图形：用固定两色方格生成装饰，不承载真实链接 === */
+        document.querySelectorAll('.qr').forEach((qr, qIndex) => {
+            const pattern = qIndex % 2
+                ? [0,1,2,5,6,7,8,10,13,15,16,17,18,21,23,24,27,28,31,32,34,35,37,39,40,43,45,47,48,49,50,53,54,55,56,58,61,63]
+                : [0,1,2,5,6,7,8,10,14,15,16,18,21,23,24,25,26,30,31,33,35,36,38,40,42,44,47,48,49,54,55,56,58,60,61,62,63];
+            for (let i = 0; i < 64; i++) {
+                const cell = document.createElement('i');
+                if (pattern.includes(i)) cell.className = 'on';
+                qr.appendChild(cell);
+            }
+        });
+
+        /* === 演示控制器：缩放、键盘、滚轮和触摸导航 === */
+        class SlidePresentation {
+            constructor() {
+                this.slides = [...document.querySelectorAll('.slide')];
+                this.currentSlide = 0;
+                this.stage = document.getElementById('deckStage');
+                this.progress = document.getElementById('progress');
+                this.wheelLocked = false;
+                this.touchStartX = 0;
+                this.setupStageScale();
+                this.setupNavigation();
+                this.showSlide(0);
+            }
+            setupStageScale() {
+                const scale = () => {
+                    const factor = Math.min(innerWidth / 1920, innerHeight / 1080);
+                    const x = (innerWidth - 1920 * factor) / 2;
+                    const y = (innerHeight - 1080 * factor) / 2;
+                    this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
+                };
+                scale();
+                addEventListener('resize', scale);
+            }
+            setupNavigation() {
+                addEventListener('keydown', (event) => {
+                    if (event.target.getAttribute && event.target.getAttribute('contenteditable') === 'true') return;
+                    if (['ArrowRight', 'ArrowDown', ' ', 'PageDown'].includes(event.key)) {
+                        event.preventDefault(); this.next();
+                    } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) {
+                        event.preventDefault(); this.prev();
+                    } else if (event.key === 'Home' || event.key.toLowerCase() === 'r') {
+                        this.showSlide(0);
+                    } else if (event.key === 'End') {
+                        this.showSlide(this.slides.length - 1);
+                    }
+                });
+                addEventListener('wheel', (event) => {
+                    if (this.wheelLocked || Math.abs(event.deltaY) < 20) return;
+                    this.wheelLocked = true;
+                    event.deltaY > 0 ? this.next() : this.prev();
+                    setTimeout(() => this.wheelLocked = false, 520);
+                }, { passive: true });
+                addEventListener('touchstart', event => this.touchStartX = event.changedTouches[0].screenX, { passive: true });
+                addEventListener('touchend', event => {
+                    const dx = event.changedTouches[0].screenX - this.touchStartX;
+                    if (Math.abs(dx) > 55) dx < 0 ? this.next() : this.prev();
+                }, { passive: true });
+            }
+            showSlide(index) {
+                this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
+                this.slides.forEach((slide, i) => {
+                    slide.classList.toggle('active', i === this.currentSlide);
+                    slide.classList.toggle('visible', i === this.currentSlide);
+                });
+                this.progress.style.width = `${((this.currentSlide + 1) / this.slides.length) * 100}%`;
+                history.replaceState(null, '', `#${this.currentSlide + 1}`);
+            }
+            next() { this.showSlide(this.currentSlide + 1); }
+            prev() { this.showSlide(this.currentSlide - 1); }
+        }
+
+        /* === 内联编辑器：E 键切换，文本自动保存到本地浏览器 === */
+        class InlineEditor {
+            constructor() {
+                this.isActive = false;
+                this.editables = [...document.querySelectorAll('[data-edit]')];
+                this.key = 'coulombs-law-edits-v1';
+                this.restore();
+                this.editables.forEach((el, index) => {
+                    el.dataset.editIndex = index;
+                    el.addEventListener('input', () => this.save());
+                });
+            }
+            toggleEditMode() {
+                this.isActive = !this.isActive;
+                this.editables.forEach(el => el.setAttribute('contenteditable', String(this.isActive)));
+                document.getElementById('editToggle').classList.toggle('active', this.isActive);
+                this.toast(this.isActive ? '编辑模式已开启 · Ctrl/⌘+S 保存' : '编辑已保存');
+                if (!this.isActive) this.save();
+            }
+            save() {
+                localStorage.setItem(this.key, JSON.stringify(this.editables.map(el => el.innerHTML)));
+                this.toast('已保存到当前浏览器');
+            }
+            restore() {
+                try {
+                    const saved = JSON.parse(localStorage.getItem(this.key) || 'null');
+                    if (saved) this.editables.forEach((el, i) => { if (saved[i] != null) el.innerHTML = saved[i]; });
+                } catch (_) {}
+            }
+            toast(text) {
+                const toast = document.getElementById('editToast');
+                toast.textContent = text; toast.classList.add('show');
+                clearTimeout(this.toastTimer);
+                this.toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
+            }
+        }
+
+        const deck = new SlidePresentation();
+        const editor = new InlineEditor();
+        const hotzone = document.querySelector('.edit-hotzone');
+        const editToggle = document.getElementById('editToggle');
+        let hideTimeout = null;
+        hotzone.addEventListener('mouseenter', () => { clearTimeout(hideTimeout); editToggle.classList.add('show'); });
+        hotzone.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400);
+        });
+        editToggle.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
+        editToggle.addEventListener('mouseleave', () => {
+            hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400);
+        });
+        editToggle.addEventListener('click', () => editor.toggleEditMode());
+        hotzone.addEventListener('click', () => editor.toggleEditMode());
+        document.addEventListener('keydown', event => {
+            if ((event.key === 'e' || event.key === 'E') && event.target.getAttribute('contenteditable') !== 'true') editor.toggleEditMode();
+            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
+                event.preventDefault(); editor.save();
+            }
+        });
+
+        /* === 深链接：允许以 #3 等形式直接打开指定页 === */
+        const initial = Number(location.hash.slice(1));
+        if (Number.isFinite(initial) && initial > 0) deck.showSlide(initial - 1);
+    </script>
+</body>
+</html>
