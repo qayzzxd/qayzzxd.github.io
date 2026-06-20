@@ -1,1110 +1,424 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>库仑定律｜高中物理课件</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Hanken+Grotesk:wght@400;600&family=Newsreader:opsz,wght@6..72,400&family=Noto+Serif+SC:wght@400;700&display=swap" rel="stylesheet">
-    <style>
-        /* === 主题变量：钴蓝方格 / Cobalt Grid === */
-        :root {
-            --paper: #F0EBDE;
-            --paper-2: #E6E0CE;
-            --ink: #1F2BE0;
-            --ink-soft: #5560E5;
-            --grid: rgba(31, 43, 224, 0.10);
-            --ink-faint: rgba(31, 43, 224, 0.18);
-            --stage-bg: #D8D1C1;
-            --slide-bg: #F0EBDE;
-            --font-display: "Newsreader", "Noto Serif SC", serif;
-            --font-body: "Hanken Grotesk", "Noto Serif SC", sans-serif;
-            --font-mono: "DM Mono", monospace;
-            --ease: cubic-bezier(.16, 1, .3, 1);
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>第2节 库仑定律｜高中物理</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Noto+Sans+SC:wght@400;500;700;900&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* === 主题：C 风格 / 橙黑力场 === */
+:root{--stage-bg:#0d0d0d;--slide-bg:#171717;--ink:#f4efe4;--muted:#aaa39a;--orange:#ff5a36;--orange2:#ff754f;--dark:#171717;--line:#3d3a37;--font-display:"Archivo Black","Noto Sans SC",sans-serif;--font-body:"Noto Sans SC",sans-serif;--font-mono:"Space Mono",monospace;--ease:cubic-bezier(.16,1,.3,1)}
+*{box-sizing:border-box}
 
-        * { box-sizing: border-box; }
+/* ===========================================
+   FIXED 16:9 STAGE: MANDATORY BASE STYLES
+   Include this ENTIRE file in every presentation.
+   Slides are authored at 1920×1080 and scaled as a whole.
+   =========================================== */
 
-        /* ===========================================
-           FIXED 16:9 STAGE: MANDATORY BASE STYLES
-           Include this ENTIRE file in every presentation.
-           Slides are authored at 1920×1080 and scaled as a whole.
-           =========================================== */
+/* 1. Lock the browser viewport */
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
 
-        /* 1. Lock the browser viewport */
-        html,
-        body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            overflow: hidden;
-            background: var(--stage-bg, #000);
-        }
+/* 2. Full-window deck viewport */
+.deck-viewport {
+    position: fixed;
+    inset: 0;
+    overflow: hidden;
+    background: var(--stage-bg, #000);
+}
 
-        /* 2. Full-window deck viewport */
-        .deck-viewport {
-            position: fixed;
-            inset: 0;
-            overflow: hidden;
-            background: var(--stage-bg, #000);
-        }
+/* 3. Fixed 16:9 design canvas.
+   JavaScript sets transform: translate(...) scale(...). */
+.deck-stage {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    transform-origin: 0 0;
+    background: var(--slide-bg, #fff);
+}
 
-        /* 3. Fixed 16:9 design canvas.
-           JavaScript sets transform: translate(...) scale(...). */
-        .deck-stage {
-            position: absolute;
-            left: 0;
-            top: 0;
-            width: 1920px;
-            height: 1080px;
-            overflow: hidden;
-            transform-origin: 0 0;
-            background: var(--slide-bg, #fff);
-        }
+/* 4. Slides stack inside the fixed stage.
+   Content must be laid out at 1920×1080, not reflowed per device. */
+.slide {
+    position: absolute;
+    inset: 0;
+    width: 1920px;
+    height: 1080px;
+    overflow: hidden;
+    display: block;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    background: var(--slide-bg, #fff);
+}
 
-        /* 4. Slides stack inside the fixed stage.
-           Content must be laid out at 1920×1080, not reflowed per device. */
-        .slide {
-            position: absolute;
-            inset: 0;
-            width: 1920px;
-            height: 1080px;
-            overflow: hidden;
-            display: block;
-            visibility: hidden;
-            opacity: 0;
-            pointer-events: none;
-            background: var(--slide-bg, #fff);
-        }
+.slide.active,
+.slide.visible {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1;
+}
 
-        .slide.active,
-        .slide.visible {
-            visibility: visible;
-            opacity: 1;
-            pointer-events: auto;
-            z-index: 1;
-        }
+/* 5. Keep media inside authored slide bounds */
+img,
+video,
+canvas,
+svg {
+    max-width: 100%;
+    max-height: 100%;
+}
 
-        /* 5. Keep media inside authored slide bounds */
-        img,
-        video,
-        canvas,
-        svg {
-            max-width: 100%;
-            max-height: 100%;
-        }
+/* 6. Presentation chrome stays outside the slide design system */
+.deck-controls {
+    position: fixed;
+    left: 50%;
+    bottom: 22px;
+    transform: translateX(-50%);
+    z-index: 1000;
+}
 
-        /* 6. Presentation chrome stays outside the slide design system */
-        .deck-controls {
-            position: fixed;
-            left: 50%;
-            bottom: 22px;
-            transform: translateX(-50%);
-            z-index: 1000;
-        }
+/* 7. Print one fixed-size slide per page */
+@media print {
+    html,
+    body {
+        width: 1920px;
+        height: auto;
+        overflow: visible;
+        background: #fff;
+    }
 
-        /* 7. Print one fixed-size slide per page */
-        @media print {
-            html,
-            body {
-                width: 1920px;
-                height: auto;
-                overflow: visible;
-                background: #fff;
-            }
+    .deck-viewport {
+        position: static;
+        overflow: visible;
+        background: #fff;
+    }
 
-            .deck-viewport {
-                position: static;
-                overflow: visible;
-                background: #fff;
-            }
+    .deck-stage {
+        position: static;
+        width: auto;
+        height: auto;
+        transform: none !important;
+        background: none;
+    }
 
-            .deck-stage {
-                position: static;
-                width: auto;
-                height: auto;
-                transform: none !important;
-                background: none;
-            }
+    .slide {
+        position: relative;
+        display: block !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+        pointer-events: auto !important;
+        width: 1920px;
+        height: 1080px;
+        break-after: page;
+        page-break-after: always;
+    }
 
-            .slide {
-                position: relative;
-                display: block !important;
-                visibility: visible !important;
-                opacity: 1 !important;
-                pointer-events: auto !important;
-                width: 1920px;
-                height: 1080px;
-                break-after: page;
-                page-break-after: always;
-            }
+    .slide:last-child {
+        break-after: auto;
+        page-break-after: auto;
+    }
 
-            .slide:last-child {
-                break-after: auto;
-                page-break-after: auto;
-            }
+    .deck-controls {
+        display: none !important;
+    }
+}
 
-            .deck-controls {
-                display: none !important;
-            }
-        }
+/* 8. Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.2s !important;
+    }
+}
 
-        /* 8. Reduced motion */
-        @media (prefers-reduced-motion: reduce) {
-            *,
-            *::before,
-            *::after {
-                animation-duration: 0.01ms !important;
-                transition-duration: 0.2s !important;
-            }
-        }
+/* === 通用舞台、页眉与动效 === */
+.slide{color:var(--ink);font-family:var(--font-body);background:radial-gradient(circle at 78% 18%,#25211f 0,#171717 34%,#101010 100%);transition:opacity .3s ease}
+.slide:after{content:"";position:absolute;inset:0;pointer-events:none;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:56px 56px}
+.chrome{position:absolute;left:92px;right:92px;top:62px;z-index:20;display:flex;justify-content:space-between;align-items:center;font:700 27px var(--font-mono);letter-spacing:.12em;color:#77716c}
+.chrome b{color:var(--ink)}.page{position:absolute;right:92px;bottom:52px;z-index:20;font:700 18px var(--font-mono);color:#77716c}.hint{position:absolute;left:92px;bottom:52px;z-index:20;font:400 16px var(--font-mono);color:#68635f}
+.content{position:absolute;inset:126px 100px 100px;z-index:5}
+.eyebrow{font:700 20px var(--font-mono);letter-spacing:.14em;color:var(--orange);margin-bottom:20px}
+h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
+.orange{color:var(--orange)}.muted{color:var(--muted)}.mono{font-family:var(--font-mono)}
+.reveal,.reveal-left,.reveal-scale{opacity:0;transition:opacity .62s var(--ease),transform .62s var(--ease)}
+.reveal{transform:translateY(34px)}.reveal-left{transform:translateX(-48px)}.reveal-scale{transform:scale(.92)}
+.visible .reveal,.visible .reveal-left,.visible .reveal-scale{opacity:1;transform:none}.d1{transition-delay:.06s}.d2{transition-delay:.17s}.d3{transition-delay:.29s}.d4{transition-delay:.41s}.d5{transition-delay:.53s}
+.panel{background:var(--orange);color:var(--dark)}.outline{border:3px solid var(--ink)}.rule{height:3px;background:var(--ink)}
+.charge{width:122px;height:122px;border:6px solid currentColor;border-radius:50%;display:grid;place-items:center;font:900 58px var(--font-display);background:var(--dark)}
+.arrow{height:7px;background:currentColor;position:absolute;transform-origin:left center}.arrow:after{content:"";position:absolute;right:-3px;top:-10px;border:13px solid transparent;border-left-color:currentColor}
 
-        /* === 永久画布：方格纸、发丝线和页码 === */
-        .slide {
-            color: var(--ink);
-            font-family: var(--font-body);
-            transition: opacity 280ms ease;
-            background-color: var(--paper);
-            background-image:
-                linear-gradient(to right, var(--grid) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--grid) 1px, transparent 1px);
-            background-size: 42px 42px;
-        }
-        .hairlines::before,
-        .hairlines::after {
-            content: "";
-            position: absolute;
-            z-index: 12;
-            left: 70px;
-            right: 70px;
-            height: 2px;
-            background: var(--ink);
-        }
-        .hairlines::before { top: 28px; }
-        .hairlines::after { bottom: 25px; }
-        .page-num,
-        .nav-hint {
-            position: absolute;
-            bottom: 53px;
-            z-index: 15;
-            font: 400 17px/1 var(--font-mono);
-            letter-spacing: .08em;
-        }
-        .page-num { right: 72px; }
-        .nav-hint { left: 72px; opacity: .45; }
-        .frame {
-            position: absolute;
-            inset: 86px 95px 120px;
-            z-index: 4;
-        }
-        .topbar {
-            height: 128px;
-            border-bottom: 3px solid var(--ink);
-            display: flex;
-            align-items: flex-start;
-            justify-content: space-between;
-        }
-        .topbar h2 {
-            font: 400 82px/.95 var(--font-display);
-            margin: 0;
-            letter-spacing: -.01em;
-        }
-        .lab-tag,
-        .kicker {
-            font: 600 20px/1.2 var(--font-body);
-            letter-spacing: .16em;
-        }
-        .lab-tag { padding-top: 20px; text-align: right; }
-        .mono { font-family: var(--font-mono); letter-spacing: .05em; }
+/* === Slide 1 封面 === */
+.cover-card{position:absolute;left:88px;top:164px;width:1325px;height:760px;padding:70px 78px;background:var(--orange);color:var(--dark);z-index:4;overflow:hidden}
+.cover-card:after{content:"";position:absolute;width:650px;height:650px;border:90px solid rgba(20,20,20,.12);border-radius:50%;right:-190px;bottom:-300px}
+.chapter{font:900 31px var(--font-body);letter-spacing:.04em;margin-bottom:34px}
+.cover-title{font:900 74px/1.25 var(--font-body);letter-spacing:-3px;margin:0;width:1080px}.cover-title strong{display:block;font-size:148px;line-height:1;margin-top:24px;letter-spacing:-9px}
+.cover-sub{position:absolute;left:80px;bottom:66px;font:700 39px/1.4 var(--font-body)}
+.cover-orbit{position:absolute;right:132px;top:260px;width:335px;height:335px;border:8px solid var(--ink);border-radius:50%;z-index:5;display:grid;place-items:center;font:400 132px var(--font-display);animation:float 3.2s ease-in-out infinite}
+.vertical-formula{position:absolute;right:105px;bottom:165px;z-index:6;font:700 32px var(--font-mono);writing-mode:vertical-rl;color:#77716c}
+@keyframes float{50%{transform:translateY(-18px) rotate(4deg)}}
 
-        /* === 入场动画：编辑式分层揭示 === */
-        .reveal,
-        .reveal-left,
-        .reveal-scale {
-            opacity: 0;
-            transition: opacity .65s var(--ease), transform .65s var(--ease);
-        }
-        .reveal { transform: translateY(32px); }
-        .reveal-left { transform: translateX(-44px); }
-        .reveal-scale { transform: scale(.94); }
-        .visible .reveal,
-        .visible .reveal-left,
-        .visible .reveal-scale { opacity: 1; transform: none; }
-        .d1 { transition-delay: .08s; }
-        .d2 { transition-delay: .18s; }
-        .d3 { transition-delay: .30s; }
-        .d4 { transition-delay: .42s; }
+/* === Slide 2 静电摆球 === */
+.s2-grid{display:grid;grid-template-columns:910px 1fr;gap:74px;height:730px;margin-top:38px}
+.pendulum-lab{position:relative;border:3px solid var(--line);overflow:hidden;background:#131313}
+.stand{position:absolute;left:170px;top:70px;width:380px;height:12px;background:var(--ink)}.stand:before{content:"";position:absolute;left:0;top:-35px;width:12px;height:610px;background:var(--ink)}.stand:after{content:"";position:absolute;left:-95px;top:565px;width:210px;height:15px;background:var(--ink)}
+.thread{position:absolute;left:480px;top:82px;width:4px;height:400px;background:var(--ink);transform:rotate(-18deg);transform-origin:top}.ball{position:absolute;left:527px;top:443px;width:96px;height:96px;border-radius:50%;background:var(--orange);display:grid;place-items:center;color:var(--dark);font:900 37px var(--font-display)}
+.body-c{position:absolute;right:100px;top:375px;width:122px;height:122px;border:7px solid var(--orange);border-radius:50%;display:grid;place-items:center;font:900 45px var(--font-display);color:var(--orange)}
+.interaction{position:absolute;left:615px;top:450px;width:175px;color:var(--orange)}
+.lab-caption{position:absolute;left:35px;bottom:26px;font:700 18px var(--font-mono);color:#777}
+.questions{display:flex;flex-direction:column;gap:25px}.q-card{padding:34px 34px;border-left:10px solid var(--orange);background:#20201f;font-size:31px;line-height:1.45}.q-card b{font:700 20px var(--font-mono);color:var(--orange);display:block;margin-bottom:12px}
+.finding{margin-top:auto;margin-bottom:38px;background:var(--orange);color:var(--dark);padding:31px 34px;font:900 30px/1.55 var(--font-body)}
+.fragment{opacity:0;transform:translateY(30px);visibility:hidden;transition:opacity .5s var(--ease),transform .5s var(--ease),visibility 0s linear .5s}
+.fragment.shown{opacity:1;transform:none;visibility:visible;transition-delay:0s}
+.ggb-placeholder{height:100%;border:4px dashed var(--orange);background:repeating-linear-gradient(135deg,#141414 0 18px,#1b1b1b 18px 36px);display:grid;place-items:center;text-align:center;padding:40px;position:relative}
+.ggb-placeholder:before,.ggb-placeholder:after{content:"";position:absolute;width:42px;height:42px;border-color:var(--orange);border-style:solid}.ggb-placeholder:before{left:22px;top:22px;border-width:5px 0 0 5px}.ggb-placeholder:after{right:22px;bottom:22px;border-width:0 5px 5px 0}
+.ggb-placeholder b{display:block;font:900 42px var(--font-body);color:var(--orange);margin-bottom:16px}.ggb-placeholder span{font:700 20px/1.6 var(--font-mono);color:var(--muted)}.ggb-placeholder code{display:block;margin-top:18px;color:#706a65;font:400 16px var(--font-mono)}
+.ggb-embed{height:100%;position:relative;overflow:hidden;background:#fff;border:4px solid var(--orange)}
+.ggb-embed>div,.ggb-embed .applet_scaler,.ggb-embed .appletParameters{max-width:none;max-height:none}
 
-        /* === 像素故障装饰：封面、概念页与结尾页 === */
-        .glitch {
-            position: absolute;
-            z-index: 2;
-            top: 0;
-            right: 0;
-            width: 520px;
-            height: 1080px;
-            opacity: .72;
-            pointer-events: none;
-            background:
-                repeating-linear-gradient(90deg, transparent 0 15px, var(--ink) 15px 18px);
-            clip-path: polygon(40% 0,100% 0,100% 100%,12% 100%,12% 88%,22% 88%,22% 74%,5% 74%,5% 58%,30% 58%,30% 40%,15% 40%,15% 20%,40% 20%);
-        }
-        .qr {
-            position: absolute;
-            z-index: 7;
-            width: 112px;
-            height: 112px;
-            display: grid;
-            grid-template-columns: repeat(8, 1fr);
-            gap: 3px;
-            padding: 6px;
-            background: var(--paper);
-            box-shadow: 0 0 0 2px var(--paper);
-        }
-        .qr i { background: transparent; }
-        .qr i.on { background: var(--ink); }
+/* === Slide 3 猜想 === */
+.analogy{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px}.law-card{height:245px;padding:35px 44px;border:3px solid var(--line);position:relative}.law-card.orange-card{background:var(--orange);color:var(--dark);border-color:var(--orange)}.law-name{font:700 19px var(--font-mono);letter-spacing:.08em}.law-formula{font:900 70px/1 var(--font-body);margin-top:38px}
+.guess{margin-top:42px;display:grid;grid-template-columns:1fr 1fr;gap:40px}.guess-main{height:290px;background:var(--ink);color:var(--dark);padding:38px 46px}.guess-main p{font-size:29px;margin:0 0 20px}.guess-main strong{font:900 76px/1.1 var(--font-body)}
+.history{height:290px;border:3px solid var(--orange);padding:30px 34px;display:grid;grid-template-rows:1fr 1fr}.history-row{display:grid;grid-template-columns:150px 1fr;align-items:center;padding:0 15px;border-bottom:1px solid #49433f;font-size:27px;line-height:1.45}.history-row:last-child{border-bottom:0}.history-row b{font-family:var(--font-mono);font-size:23px;color:var(--orange)}
 
-        /* === Slide 1：封面 === */
-        .cover-copy {
-            position: absolute;
-            left: 115px;
-            top: 190px;
-            width: 1120px;
-            z-index: 5;
-        }
-        .cover-copy .kicker { margin-bottom: 38px; }
-        .cover-copy h1 {
-            font: 700 174px/.98 var(--font-display);
-            letter-spacing: 0;
-            margin: 0;
-        }
-        .cover-copy p {
-            margin: 35px 0 0;
-            font: 400 35px/1.5 var(--font-display);
-        }
-        .cover-formula {
-            position: absolute;
-            left: 118px;
-            bottom: 130px;
-            z-index: 5;
-            font: 500 35px/1 var(--font-mono);
-        }
-        .cover .qr { right: 200px; top: 132px; }
+/* === Slide 4 点电荷 === */
+.model-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:55px;margin-top:42px}.definition{height:475px;background:var(--orange);color:var(--dark);padding:48px 52px}.definition b{font:900 92px/1 var(--font-display)}.definition p{font-size:29px;line-height:1.65;margin:27px 0 0}
+.model-visual{height:475px;border:3px solid var(--line);position:relative}.real-body{position:absolute;left:80px;top:120px;width:210px;height:210px;border:6px solid var(--muted);border-radius:45% 55% 60% 40%;display:grid;place-items:center;font-size:28px}.transform{position:absolute;left:320px;top:220px;width:170px;color:var(--orange)}.point-charge{position:absolute;right:115px;top:140px;width:170px;height:170px;background:var(--orange);color:var(--dark);border-radius:50%;display:grid;place-items:center;font:900 70px var(--font-display)}
+.compare-label{position:absolute;bottom:42px;left:70px;right:70px;display:flex;justify-content:space-between;font:700 20px var(--font-mono)}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px}.check{border-top:5px solid var(--orange);padding:22px 24px;font-size:25px;line-height:1.5}.check b{display:block;color:var(--orange);font:700 18px var(--font-mono);margin-bottom:12px}
 
-        /* === Slide 2：问题引入 === */
-        .question-layout {
-            display: grid;
-            grid-template-columns: 1fr 720px;
-            gap: 95px;
-            height: calc(100% - 158px);
-            padding-top: 62px;
-        }
-        .big-question {
-            font: 400 78px/1.18 var(--font-display);
-            margin: 15px 0 36px;
-        }
-        .question-note {
-            width: 780px;
-            border-top: 2px solid var(--ink);
-            padding-top: 23px;
-            font-size: 27px;
-            line-height: 1.65;
-        }
-        .charge-scene {
-            position: relative;
-            height: 520px;
-            border-left: 2px solid var(--ink);
-        }
-        .charge {
-            position: absolute;
-            top: 155px;
-            width: 158px;
-            height: 158px;
-            border: 5px solid var(--ink);
-            display: grid;
-            place-items: center;
-            font: 700 80px/1 var(--font-display);
-            background: var(--paper);
-        }
-        .charge.left { left: 70px; }
-        .charge.right { right: 70px; }
-        .distance {
-            position: absolute;
-            left: 228px;
-            right: 228px;
-            top: 234px;
-            border-top: 4px solid var(--ink);
-        }
-        .distance::before,
-        .distance::after {
-            content: "";
-            position: absolute;
-            top: -10px;
-            width: 16px;
-            height: 16px;
-            border-top: 4px solid var(--ink);
-        }
-        .distance::before { left: 0; border-left: 4px solid var(--ink); transform: rotate(-45deg); }
-        .distance::after { right: 0; border-right: 4px solid var(--ink); transform: rotate(45deg); }
-        .distance b {
-            position: absolute;
-            left: 50%;
-            transform: translate(-50%, -52px);
-            font: 500 28px var(--font-mono);
-            background: var(--paper);
-            padding: 0 18px;
-        }
-        .question-marks {
-            position: absolute;
-            bottom: 10px;
-            left: 55px;
-            right: 55px;
-            display: flex;
-            justify-content: space-between;
-            font: 400 24px var(--font-mono);
-        }
+/* === Slide 5/6 扭秤 === */
+.balance-layout{display:grid;grid-template-columns:820px 1fr;gap:70px;margin-top:34px}.torsion{height:650px;position:relative;border:3px solid var(--line);background:#111}
+.silver{position:absolute;left:407px;top:32px;width:5px;height:225px;background:var(--ink)}.bar{position:absolute;left:185px;top:260px;width:450px;height:14px;background:var(--ink);transform:rotate(-8deg);transform-origin:center}
+.ball-a,.ball-b,.ball-c{position:absolute;width:98px;height:98px;border-radius:50%;display:grid;place-items:center;font:900 35px var(--font-display)}.ball-a{left:165px;top:212px;background:var(--orange);color:var(--dark)}.ball-b{left:610px;top:275px;background:var(--ink);color:var(--dark)}.ball-c{left:95px;top:390px;border:6px solid var(--orange);color:var(--orange)}
+.arc{position:absolute;left:255px;top:150px;width:300px;height:300px;border:4px solid transparent;border-top-color:var(--orange);border-radius:50%;transform:rotate(-15deg)}.theta{position:absolute;left:490px;top:155px;font:700 35px var(--font-mono);color:var(--orange)}
+.part-label{position:absolute;font:700 17px var(--font-mono);color:var(--muted)}.p-wire{left:440px;top:70px}.p-stick{left:470px;top:305px}.p-abc{left:70px;bottom:28px}
+.method{height:650px;display:flex;flex-direction:column;gap:24px}.method-block{padding:27px 32px;border-left:10px solid var(--orange);background:#222;font-size:25px;line-height:1.55}.method-block b{display:block;font:900 32px var(--font-body);margin-bottom:8px}.result{margin-top:auto;padding:31px 35px;background:var(--orange);color:var(--dark);font:900 32px/1.4 var(--font-body)}.result .formula{font:900 63px var(--font-body);display:block;margin-top:7px}
+.split-visual{height:650px;border:3px solid var(--line);padding:42px;position:relative}.split-row{height:155px;display:flex;align-items:center;justify-content:space-around;border-bottom:2px solid var(--line)}.metal-ball{width:105px;height:105px;border:6px solid var(--orange);border-radius:50%;display:grid;place-items:center;font:900 29px var(--font-mono);color:var(--orange)}.contact-arrow{font:900 45px var(--font-mono);color:var(--muted)}.split-eq{text-align:center;font:900 45px var(--font-body);margin:27px 0}.sequence{display:flex;justify-content:space-around;align-items:center;margin-top:22px}.sequence span{font:900 46px var(--font-mono);color:var(--orange)}
 
-        /* === Slide 3：规律发现 === */
-        .relations {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 68px;
-            height: calc(100% - 155px);
-            padding-top: 55px;
-        }
-        .relation-panel {
-            border-bottom: 2px solid var(--ink);
-            position: relative;
-            padding: 28px 22px 30px;
-        }
-        .relation-panel .num {
-            font: 400 168px/.85 var(--font-display);
-            float: left;
-            margin-right: 25px;
-        }
-        .relation-panel h3 {
-            font: 400 48px/1.15 var(--font-display);
-            margin: 12px 0 12px;
-        }
-        .relation-panel p {
-            font-size: 24px;
-            line-height: 1.6;
-            margin: 0;
-        }
-        .mini-bars {
-            position: absolute;
-            left: 25px;
-            right: 25px;
-            bottom: 42px;
-            height: 220px;
-            display: flex;
-            gap: 38px;
-            align-items: flex-end;
-        }
-        .bar-group { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 13px; }
-        .bar {
-            width: 72px;
-            background: repeating-linear-gradient(to top, var(--ink) 0 12px, transparent 12px 17px);
-        }
-        .bar-label { font: 400 18px var(--font-mono); }
-        .r-graph {
-            position: absolute;
-            left: 45px;
-            right: 35px;
-            bottom: 36px;
-            height: 250px;
-            border-left: 3px solid var(--ink);
-            border-bottom: 3px solid var(--ink);
-        }
-        .curve {
-            position: absolute;
-            left: 0;
-            top: 8px;
-            width: 100%;
-            height: 100%;
-        }
-        .curve path {
-            fill: none;
-            stroke: var(--ink);
-            stroke-width: 8;
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-            transition: stroke-dashoffset 1.5s .4s var(--ease);
-        }
-        .visible .curve path { stroke-dashoffset: 0; }
+/* === Slide 7 定律 === */
+.law-layout{display:grid;grid-template-columns:1.18fr .82fr;gap:48px;margin-top:40px}.law-statement{height:585px;background:var(--orange);color:var(--dark);padding:46px 50px}.law-statement p{font:700 30px/1.75 var(--font-body);margin:0}.hero-formula{font:900 84px/1 var(--font-body);margin-top:45px;white-space:nowrap}
+.law-info{display:flex;flex-direction:column;gap:24px}.info-card{padding:29px 32px;border:3px solid var(--line);font-size:24px;line-height:1.55}.info-card b{font:700 17px var(--font-mono);color:var(--orange);display:block;margin-bottom:10px}.constant{background:var(--ink);color:var(--dark);font:900 33px/1.4 var(--font-body)}
 
-        /* === Slide 4：公式与条件 === */
-        .formula-hero {
-            height: 330px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-bottom: 2px solid var(--ink);
-            font: 400 112px/1 var(--font-display);
-        }
-        .formula-hero .frac {
-            display: inline-grid;
-            grid-template-rows: auto auto;
-            text-align: center;
-            margin-left: 32px;
-        }
-        .frac span:first-child { border-bottom: 5px solid var(--ink); padding: 0 24px 12px; }
-        .frac span:last-child { padding-top: 10px; }
-        .symbol-grid {
-            height: 342px;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            border-bottom: 2px solid var(--ink);
-        }
-        .symbol {
-            padding: 40px 28px 20px;
-            border-right: 1px solid var(--ink-faint);
-        }
-        .symbol:last-child { border-right: 0; }
-        .symbol b {
-            display: block;
-            font: 400 66px/1 var(--font-display);
-            margin-bottom: 22px;
-        }
-        .symbol p { font-size: 22px; line-height: 1.55; margin: 0; }
-        .conditions {
-            padding-top: 25px;
-            display: flex;
-            gap: 50px;
-            font-size: 23px;
-        }
-        .conditions strong { font: 500 20px var(--font-mono); }
+/* === Slide 8 宏微观对比 === */
+.atom-layout{display:grid;grid-template-columns:640px 1fr;gap:58px;margin-top:35px}.atom{height:650px;position:relative;border:3px solid var(--line);overflow:hidden}.nucleus{position:absolute;left:250px;top:240px;width:145px;height:145px;background:var(--orange);color:var(--dark);border-radius:50%;display:grid;place-items:center;font:900 54px var(--font-display)}.orbit{position:absolute;left:80px;top:110px;width:480px;height:400px;border:4px solid var(--ink);border-radius:50%;transform:rotate(-18deg)}.electron{position:absolute;right:135px;top:160px;width:68px;height:68px;background:var(--ink);color:var(--dark);border-radius:50%;display:grid;place-items:center;font:900 38px var(--font-display);animation:electron 3.5s ease-in-out infinite}@keyframes electron{50%{transform:translate(-80px,260px)}}
+.comparison{display:flex;flex-direction:column;gap:21px}.force-card{height:165px;border:3px solid var(--line);padding:28px 34px;display:flex;justify-content:space-between;align-items:end}.force-card b{font-size:26px}.force-card strong{font:900 42px var(--font-mono)}.force-card.electric{background:var(--orange);color:var(--dark);border-color:var(--orange)}
+.ratio{height:185px;background:var(--ink);color:var(--dark);padding:30px 36px}.ratio b{font:700 18px var(--font-mono)}.ratio strong{display:block;font:900 58px var(--font-body);margin-top:14px}.conclusion{font-size:25px;line-height:1.55;border-left:10px solid var(--orange);padding:22px 28px;background:#222}
 
-        /* === Slide 5：方向判断 === */
-        .direction-wrap {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 45px;
-            height: calc(100% - 155px);
-            padding-top: 44px;
-        }
-        .direction-case {
-            position: relative;
-            border-bottom: 2px solid var(--ink);
-        }
-        .direction-case h3 {
-            font: 400 47px var(--font-display);
-            margin: 0;
-        }
-        .direction-case p { font-size: 24px; margin-top: 12px; }
-        .pair {
-            position: absolute;
-            left: 25px;
-            right: 25px;
-            top: 210px;
-            height: 245px;
-        }
-        .pair .charge { top: 46px; width: 140px; height: 140px; font-size: 68px; }
-        .pair .charge.left { left: 95px; }
-        .pair .charge.right { right: 95px; }
-        .force-arrow {
-            position: absolute;
-            top: 113px;
-            width: 155px;
-            border-top: 7px solid var(--ink);
-            transition: transform .9s .4s var(--ease);
-        }
-        .force-arrow::after {
-            content: "";
-            position: absolute;
-            top: -14px;
-            border: 11px solid transparent;
-        }
-        .attract .a-left { left: 250px; }
-        .attract .a-left::after { right: -13px; border-left-color: var(--ink); }
-        .attract .a-right { right: 250px; }
-        .attract .a-right::after { left: -13px; border-right-color: var(--ink); }
-        .repel .a-left { left: 55px; }
-        .repel .a-left::after { left: -13px; border-right-color: var(--ink); }
-        .repel .a-right { right: 55px; }
-        .repel .a-right::after { right: -13px; border-left-color: var(--ink); }
-        .visible .force-arrow { transform: scaleX(1.13); }
-        .direction-rule {
-            position: absolute;
-            bottom: 45px;
-            left: 25px;
-            right: 25px;
-            font: 400 28px/1.5 var(--font-mono);
-        }
+/* === Slide 9 叠加 === */
+.super-layout{display:grid;grid-template-columns:770px 1fr;gap:65px;margin-top:34px}.triangle-board{height:650px;border:3px solid var(--line);position:relative}.triangle{position:absolute;left:155px;top:95px;width:455px;height:395px;border-left:5px solid var(--muted);border-right:5px solid var(--muted);border-bottom:5px solid var(--muted);clip-path:polygon(50% 0,100% 100%,0 100%)}.tri-charge{position:absolute;width:105px;height:105px;border-radius:50%;background:var(--orange);color:var(--dark);display:grid;place-items:center;font:900 42px var(--font-display);z-index:4}.t1{left:330px;top:50px}.t2{left:105px;top:440px}.t3{right:105px;top:440px}.v-a{left:382px;top:135px;width:230px;transform:rotate(60deg);color:var(--ink)}.v-b{left:378px;top:135px;width:230px;transform:rotate(120deg);color:var(--ink)}.v-s{left:380px;top:135px;width:250px;transform:rotate(90deg);color:var(--orange);height:10px}.vector-note{position:absolute;bottom:34px;left:45px;right:45px;text-align:center;font:700 24px var(--font-mono)}
+.super-copy{display:flex;flex-direction:column;gap:28px}.super-copy .principle{background:var(--orange);color:var(--dark);padding:35px 38px;font:700 28px/1.65 var(--font-body)}.super-copy .equation{font:900 61px var(--font-body);padding:31px;border:3px solid var(--ink)}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.steps div{padding:24px 19px;background:#222;font-size:22px;line-height:1.45}.steps b{display:block;font:700 17px var(--font-mono);color:var(--orange);margin-bottom:8px}
 
-        /* === Slide 6：矢量与叠加 === */
-        .superposition {
-            display: grid;
-            grid-template-columns: 730px 1fr;
-            gap: 85px;
-            height: calc(100% - 155px);
-            padding-top: 45px;
-        }
-        .vector-board {
-            position: relative;
-            height: 570px;
-            border-right: 2px solid var(--ink);
-        }
-        .vector-board .charge { width: 118px; height: 118px; font-size: 55px; top: auto; }
-        .q0 { left: 305px; top: 245px !important; }
-        .q1 { left: 30px; top: 28px !important; }
-        .q2 { left: 35px; top: 430px !important; }
-        .vector {
-            position: absolute;
-            height: 5px;
-            background: var(--ink);
-            transform-origin: left center;
-        }
-        .vector::after {
-            content: "";
-            position: absolute;
-            right: -4px;
-            top: -8px;
-            border: 10px solid transparent;
-            border-left-color: var(--ink);
-        }
-        .v1 { left: 370px; top: 290px; width: 235px; transform: rotate(-34deg); }
-        .v2 { left: 370px; top: 318px; width: 235px; transform: rotate(34deg); }
-        .vsum { left: 370px; top: 304px; width: 315px; height: 9px; }
-        .vector-label { position: absolute; font: 500 23px var(--font-mono); }
-        .l1 { left: 530px; top: 202px; }
-        .l2 { left: 530px; top: 383px; }
-        .ls { left: 575px; top: 325px; }
-        .steps { padding: 20px 0 0; }
-        .step {
-            display: grid;
-            grid-template-columns: 70px 1fr;
-            border-bottom: 1px solid var(--ink-faint);
-            padding: 21px 0;
-        }
-        .step b { font: 400 28px var(--font-mono); }
-        .step h3 { font: 400 38px/1.2 var(--font-display); margin: 0 0 8px; }
-        .step p { font-size: 22px; line-height: 1.5; margin: 0; }
-        .vector-equation { font: 400 44px var(--font-display); margin-top: 35px; }
+/* === Slide 10 总结 === */
+.summary-card{position:absolute;left:90px;top:175px;width:1260px;height:700px;background:var(--orange);color:var(--dark);padding:55px 65px;z-index:4}.summary-card h2{font-size:90px;margin-bottom:42px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.three div{border-top:7px solid var(--dark);padding-top:24px}.three b{display:block;font:900 80px var(--font-display)}.three span{font:900 31px var(--font-body)}.homework{position:absolute;left:65px;right:65px;bottom:55px;border-top:3px solid rgba(20,20,20,.45);padding-top:20px;font:700 28px var(--font-body)}
+.attraction-scene{position:absolute;right:55px;top:245px;width:520px;height:310px;z-index:6}.final-charge{position:absolute;top:92px;width:48px;height:48px;border:4px solid var(--ink);border-radius:50%;display:grid;place-items:center;font:900 25px var(--font-display);color:var(--ink);transition:transform 1.15s var(--ease)}.final-charge.positive{left:0}.final-charge.negative{right:0}.attraction-scene.shown .positive{transform:translateX(145px)}.attraction-scene.shown .negative{transform:translateX(-145px)}
+.final-formula{position:absolute;right:68px;top:565px;width:500px;z-index:7;display:flex;align-items:center;justify-content:center;gap:18px;padding:23px 18px;border:4px solid var(--orange);font:900 42px var(--font-body);color:var(--ink);background:#171717}.final-fraction{display:inline-grid;grid-template-rows:auto auto;text-align:center;line-height:1.05}.final-fraction span:first-child{padding:0 16px 9px;border-bottom:4px solid var(--ink)}.final-fraction span:last-child{padding-top:8px}
 
-        /* === Slide 7：例题 === */
-        .example-grid {
-            display: grid;
-            grid-template-columns: 670px 1fr;
-            gap: 62px;
-            height: calc(100% - 155px);
-            padding-top: 40px;
-        }
-        .example-given {
-            border-right: 2px solid var(--ink);
-            padding-right: 48px;
-        }
-        .example-given h3,
-        .solution h3 { font: 400 43px var(--font-display); margin: 0 0 25px; }
-        .given-row {
-            display: grid;
-            grid-template-columns: 115px 1fr;
-            padding: 19px 0;
-            border-bottom: 1px solid var(--ink-faint);
-            font-size: 24px;
-        }
-        .given-row b { font-family: var(--font-mono); }
-        .example-pair {
-            height: 230px;
-            position: relative;
-            margin-top: 28px;
-        }
-        .example-pair .charge { width: 116px; height: 116px; font-size: 51px; top: 52px; }
-        .example-pair .charge.left { left: 45px; }
-        .example-pair .charge.right { right: 45px; }
-        .example-pair .distance { left: 161px; right: 161px; top: 109px; }
-        .solution-line {
-            display: grid;
-            grid-template-columns: 62px 1fr;
-            gap: 20px;
-            border-bottom: 1px solid var(--ink-faint);
-            padding: 20px 0;
-        }
-        .solution-line .n { font: 400 24px var(--font-mono); }
-        .solution-line p { font-size: 24px; line-height: 1.5; margin: 0; }
-        .calculation {
-            font: 400 38px/1.6 var(--font-display);
-        }
-        .answer {
-            margin-top: 34px;
-            border: 4px solid var(--ink);
-            padding: 22px 28px;
-            font: 400 33px/1.3 var(--font-display);
-        }
-
-        /* === Slide 8：易错点 === */
-        .mistakes {
-            height: calc(100% - 155px);
-            padding-top: 34px;
-        }
-        .mistake-row {
-            display: grid;
-            grid-template-columns: 115px 390px 1fr;
-            align-items: center;
-            min-height: 142px;
-            border-bottom: 1px solid var(--ink-faint);
-        }
-        .mistake-row .no { font: 400 28px var(--font-mono); }
-        .mistake-row h3 { font: 400 36px/1.2 var(--font-display); margin: 0; }
-        .mistake-row p { font-size: 23px; line-height: 1.55; margin: 0; }
-        .mistake-row strong { font-family: var(--font-mono); }
-
-        /* === Slide 9：课堂收束 === */
-        .closing-copy {
-            position: absolute;
-            right: 150px;
-            top: 180px;
-            width: 1220px;
-            text-align: right;
-            z-index: 6;
-        }
-        .closing-copy .kicker { margin-bottom: 36px; }
-        .closing-copy h2 {
-            font: 700 128px/1.02 var(--font-display);
-            margin: 0;
-        }
-        .closing-summary {
-            position: absolute;
-            right: 155px;
-            bottom: 150px;
-            z-index: 6;
-            width: 1180px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            border-top: 3px solid var(--ink);
-        }
-        .closing-summary div {
-            padding: 28px 25px;
-            border-left: 1px solid var(--ink-faint);
-        }
-        .closing-summary b { display: block; font: 500 20px var(--font-mono); margin-bottom: 14px; }
-        .closing-summary span { font: 400 28px/1.35 var(--font-display); }
-        .closing .glitch { left: 0; right: auto; transform: scaleX(-1); width: 450px; }
-
-        /* === 进度与编辑控件：位于舞台之外 === */
-        .progress {
-            position: fixed;
-            left: 0;
-            bottom: 0;
-            height: 4px;
-            background: var(--ink);
-            z-index: 9000;
-            transition: width .3s ease;
-        }
-        .edit-hotzone { position: fixed; top: 0; left: 0; width: 80px; height: 80px; z-index: 10000; cursor: pointer; }
-        .edit-toggle {
-            position: fixed;
-            top: 14px;
-            left: 14px;
-            width: 48px;
-            height: 48px;
-            border: 2px solid var(--ink);
-            background: var(--paper);
-            color: var(--ink);
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity .3s ease;
-            z-index: 10001;
-            cursor: pointer;
-        }
-        .edit-toggle.show,
-        .edit-toggle.active { opacity: 1; pointer-events: auto; }
-        [contenteditable="true"] { outline: 3px dashed var(--ink-soft); outline-offset: 5px; cursor: text; }
-        .edit-toast {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 10002;
-            background: var(--ink);
-            color: var(--paper);
-            padding: 12px 22px;
-            font: 500 14px var(--font-mono);
-            opacity: 0;
-            transition: opacity .25s;
-            pointer-events: none;
-        }
-        .edit-toast.show { opacity: 1; }
-    </style>
+/* === 进度与内联编辑 === */
+.progress{position:fixed;left:0;bottom:0;height:5px;background:var(--orange);z-index:9000;transition:width .3s ease}
+.edit-hotzone{position:fixed;top:0;left:0;width:80px;height:80px;z-index:10000;cursor:pointer}.edit-toggle{position:fixed;top:14px;left:14px;width:48px;height:48px;border:2px solid var(--orange);background:var(--dark);color:var(--orange);opacity:0;pointer-events:none;transition:opacity .3s;z-index:10001;cursor:pointer}.edit-toggle.show,.edit-toggle.active{opacity:1;pointer-events:auto}[contenteditable=true]{outline:3px dashed var(--orange2);outline-offset:5px}.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10002;background:var(--orange);color:var(--dark);padding:12px 22px;font:700 14px var(--font-mono);opacity:0;transition:opacity .25s}.toast.show{opacity:1}
+</style>
 </head>
 <body>
-    <div class="deck-viewport">
-        <main class="deck-stage" id="deckStage" aria-label="库仑定律高中物理演示文稿">
+<div class="deck-viewport"><main class="deck-stage" id="deckStage">
 
-            <!-- === 01 封面：以两色印刷风格建立主题 === -->
-            <section class="slide cover active visible">
-                <div class="hairlines"></div>
-                <div class="glitch"></div>
-                <div class="qr" aria-hidden="true"></div>
-                <div class="cover-copy">
-                    <div class="kicker reveal-left d1">高中物理 · 静电场</div>
-                    <h1 class="reveal d2" data-edit>库仑定律</h1>
-                    <p class="reveal d3" data-edit>寻找点电荷之间作用力的规律</p>
-                </div>
-                <div class="cover-formula reveal d4">F ∝ q₁q₂　·　F ∝ 1/r²</div>
-                <div class="nav-hint">← → / SPACE / SWIPE</div>
-                <div class="page-num">01 / 09</div>
-            </section>
+<!-- === Slide 1：封面 === -->
+<section class="slide cover-slide active visible">
+<div class="chrome"><span>高中物理 · 选择性必修第三册</span><b>COULOMB'S LAW</b></div>
+<div class="cover-card">
+  <div class="chapter reveal-left d1">第九章　静电场及其应用</div>
+  <h1 class="cover-title reveal d2" data-edit>第2节<strong>库仑定律</strong></h1>
+  <div class="cover-sub reveal d3" data-edit>电荷间相互作用的定量规律</div>
+</div>
+<div class="cover-orbit reveal-scale d3">+</div><div class="vertical-formula">F = k |q₁q₂| / r²</div>
+<div class="page">01 / 10</div>
+</section>
 
-            <!-- === 02 问题引入：先建立变量意识 === -->
-            <section class="slide">
-                <div class="hairlines"></div>
-                <div class="frame">
-                    <header class="topbar">
-                        <h2 class="reveal-left" data-edit>什么决定静电力？</h2>
-                        <div class="lab-tag reveal">观察变量<br><span class="mono">q₁ · q₂ · r</span></div>
-                    </header>
-                    <div class="question-layout">
-                        <div>
-                            <div class="kicker reveal d1">从一个简单模型开始</div>
-                            <div class="big-question reveal d2" data-edit>两个带电小球之间的力，会随着什么改变？</div>
-                            <div class="question-note reveal d3" data-edit>控制变量：电荷量越大，作用力怎样变化？距离越远，作用力又怎样变化？</div>
-                        </div>
-                        <div class="charge-scene reveal-scale d2">
-                            <div class="charge left">+</div>
-                            <div class="charge right">+</div>
-                            <div class="distance"><b>r</b></div>
-                            <div class="question-marks"><span>电荷量 q₁</span><span>电荷量 q₂</span></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nav-hint">先猜想，再找规律</div><div class="page-num">02 / 09</div>
-            </section>
+<!-- === Slide 2：问题与思考 === -->
+<section class="slide inquiry-slide">
+<div class="chrome"><span><b>问题与思考</b>　定性探究</span><span>EXPERIMENT</span></div>
+<div class="content"><h2 class="reveal-left d1" data-edit>作用力取决于什么？</h2>
+<div class="s2-grid">
+ <div class="ggb-embed reveal-scale d2" id="ggb-pendulum"></div>
+ <div class="questions">
+  <div class="q-card fragment"><b>QUESTION 01</b><span data-edit>电荷间的作用力与它们之间的距离有什么关系？</span></div>
+  <div class="q-card fragment"><b>QUESTION 02</b><span data-edit>电荷间的作用力与它们所带的电荷量有什么关系？</span></div>
+  <div class="finding fragment" data-edit>实验现象：距离越近，作用力越大；电荷量越大，作用力越大。</div>
+ </div>
+</div></div><div class="page">02 / 10</div>
+</section>
 
-            <!-- === 03 比例规律：用数据感呈现正比与平方反比 === -->
-            <section class="slide">
-                <div class="hairlines"></div>
-                <div class="frame">
-                    <header class="topbar">
-                        <h2 class="reveal-left" data-edit>两个关键比例</h2>
-                        <div class="lab-tag reveal">控制变量法<br><span class="mono">PROPORTION</span></div>
-                    </header>
-                    <div class="relations">
-                        <article class="relation-panel reveal d1">
-                            <span class="num">01</span>
-                            <h3 data-edit>电荷量：乘积越大，力越大</h3>
-                            <p data-edit>距离不变时，静电力与两个电荷量的乘积成正比。</p>
-                            <div class="mini-bars" aria-label="电荷乘积与静电力的正比关系">
-                                <div class="bar-group"><div class="bar" style="height:60px"></div><div class="bar-label">1×</div></div>
-                                <div class="bar-group"><div class="bar" style="height:120px"></div><div class="bar-label">2×</div></div>
-                                <div class="bar-group"><div class="bar" style="height:180px"></div><div class="bar-label">3×</div></div>
-                                <div class="bar-group"><div class="bar" style="height:220px"></div><div class="bar-label">4×</div></div>
-                            </div>
-                        </article>
-                        <article class="relation-panel reveal d2">
-                            <span class="num">02</span>
-                            <h3 data-edit>距离：越远，力衰减得越快</h3>
-                            <p data-edit>电荷量不变时，静电力与距离的平方成反比。</p>
-                            <div class="r-graph">
-                                <svg class="curve" viewBox="0 0 700 250" preserveAspectRatio="none" aria-label="平方反比曲线">
-                                    <path d="M15,15 C80,55 110,125 170,165 C260,220 430,228 690,232"/>
-                                </svg>
-                                <span class="mono" style="position:absolute;left:-35px;top:-16px;font-size:20px">F</span>
-                                <span class="mono" style="position:absolute;right:-4px;bottom:-38px;font-size:20px">r</span>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-                <div class="nav-hint">F ∝ q₁q₂　　F ∝ 1/r²</div><div class="page-num">03 / 09</div>
-            </section>
+<!-- === Slide 3：科学猜想 === -->
+<section class="slide">
+<div class="chrome"><span><b>科学猜想</b>　类比万有引力</span><span>ANALOGY</span></div>
+<div class="content"><h2 class="fragment" data-step="2" data-edit>电荷间的力，也遵守相似规律吗？</h2>
+<div class="analogy">
+ <div class="law-card fragment" data-step="1"><div class="law-name">万有引力</div><div class="law-formula">F = G m₁m₂ / r²</div></div>
+ <div class="law-card orange-card fragment" data-step="3"><div class="law-name">静电力猜想</div><div class="law-formula">F ∝ q₁q₂ / r² ?</div></div>
+</div>
+<div class="guess">
+ <div class="guess-main fragment" data-step="4"><p data-edit>把“质量”替换成“电荷量”，形式是否仍然成立？</p><strong>平方反比</strong></div>
+ <div class="history fragment" data-step="5"><div class="history-row"><b>先驱</b><span>卡文迪什、普里斯特利确信平方反比规律</span></div><div class="history-row"><b>突破</b><span>法国科学家库仑用扭秤实验完成定量检验</span></div></div>
+</div></div><div class="page">03 / 10</div>
+</section>
 
-            <!-- === 04 定律公式：符号解释与适用条件 === -->
-            <section class="slide">
-                <div class="hairlines"></div>
-                <div class="frame">
-                    <header class="topbar">
-                        <h2 class="reveal-left" data-edit>库仑定律</h2>
-                        <div class="lab-tag reveal">真空中的点电荷<br><span class="mono">COULOMB'S LAW</span></div>
-                    </header>
-                    <div class="formula-hero reveal-scale d1">
-                        <span>F = k</span>
-                        <span class="frac"><span>|q₁q₂|</span><span>r²</span></span>
-                    </div>
-                    <div class="symbol-grid">
-                        <div class="symbol reveal d1"><b>F</b><p data-edit>静电力大小<br>单位：N</p></div>
-                        <div class="symbol reveal d2"><b>q₁, q₂</b><p data-edit>点电荷的电荷量<br>单位：C</p></div>
-                        <div class="symbol reveal d3"><b>r</b><p data-edit>两点电荷间距离<br>单位：m</p></div>
-                        <div class="symbol reveal d4"><b>k</b><p data-edit>静电力常量<br>9.0×10⁹ N·m²/C²</p></div>
-                    </div>
-                    <div class="conditions reveal d4">
-                        <span><strong>条件 01</strong>　真空中</span>
-                        <span><strong>条件 02</strong>　静止点电荷</span>
-                        <span><strong>近似</strong>　带电体尺寸远小于间距时可视为点电荷</span>
-                    </div>
-                </div>
-                <div class="nav-hint">大小由公式算，方向另作判断</div><div class="page-num">04 / 09</div>
-            </section>
+<!-- === Slide 4：点电荷模型 === -->
+<section class="slide">
+<div class="chrome"><span><b>物理理想模型</b>　点电荷</span><span>MODEL</span></div>
+<div class="content"><div class="eyebrow reveal-left">忽略次要因素，抓住主要矛盾</div><h2 class="reveal-left d1" data-edit>什么情况下，可以把带电体看成一个“点”？</h2>
+<div class="model-layout">
+ <div class="definition fragment" data-step="1"><b>点电荷</b><p data-edit>当带电体间的距离比它们自身的大小大得多，以致形状、大小及电荷分布的影响可以忽略时，带电体可看作点电荷。</p></div>
+ <div class="model-visual fragment" data-step="2"><div class="real-body">实际带电体</div><div class="arrow transform"></div><div class="point-charge">q</div><div class="compare-label"><span>复杂形状与分布</span><span>只保留电荷量与位置</span></div></div>
+</div>
+<div class="checks">
+ <div class="check fragment" data-step="3"><b>辨析 01</b><span data-edit>距离小到趋近于 0 时，通常不能再忽略带电体的大小和分布，库仑定律的点电荷模型不再适用。</span></div>
+ <div class="check fragment" data-step="4"><b>辨析 02</b><span data-edit>能看作质点，不等于一定能看作点电荷；两种模型忽略的因素不同。</span></div>
+</div></div><div class="page">04 / 10</div>
+</section>
 
-            <!-- === 05 力的方向：同斥异吸，沿连线 === -->
-            <section class="slide">
-                <div class="hairlines"></div>
-                <div class="frame">
-                    <header class="topbar">
-                        <h2 class="reveal-left" data-edit>力的方向怎么判？</h2>
-                        <div class="lab-tag reveal">作用线<br><span class="mono">沿两电荷连线</span></div>
-                    </header>
-                    <div class="direction-wrap">
-                        <article class="direction-case repel reveal d1">
-                            <h3 data-edit>同种电荷：相互排斥</h3>
-                            <p>“+ +” 或 “− −”</p>
-                            <div class="pair">
-                                <div class="charge left">+</div><div class="charge right">+</div>
-                                <div class="force-arrow a-left"></div><div class="force-arrow a-right"></div>
-                            </div>
-                            <div class="direction-rule">F₁₂ 与 F₂₁ 大小相等、方向相反</div>
-                        </article>
-                        <article class="direction-case attract reveal d2">
-                            <h3 data-edit>异种电荷：相互吸引</h3>
-                            <p>“+ −”</p>
-                            <div class="pair">
-                                <div class="charge left">+</div><div class="charge right">−</div>
-                                <div class="force-arrow a-left"></div><div class="force-arrow a-right"></div>
-                            </div>
-                            <div class="direction-rule">先画受力对象，再沿连线指向或背离</div>
-                        </article>
-                    </div>
-                </div>
-                <div class="nav-hint">口诀：同斥异吸，力沿连线</div><div class="page-num">05 / 09</div>
-            </section>
+<!-- === Slide 5：扭秤实验（一） === -->
+<section class="slide">
+<div class="chrome"><span><b>库仑扭秤（一）</b>　测量微小力</span><span>TORSION</span></div>
+<div class="content"><div class="eyebrow reveal-left">核心思想一：转化放大</div><h2 class="reveal-left d1" data-edit>看不见的微小力，变成看得见的扭转角</h2>
+<div class="balance-layout">
+ <div class="ggb-embed fragment" data-step="1" id="ggb-torsion"></div>
+ <div class="method">
+  <div class="method-block fragment" data-step="2"><b>结构解析</b>细银丝悬挂绝缘棒，A 球随棒转动；C 球靠近 A 球产生静电力。</div>
+  <div class="method-block fragment" data-step="3"><b>转化放大</b>静电力使细银丝扭转。通过扭转角 θ，比较和测量微小的静电力。</div>
+  <div class="result fragment" data-step="4">保持电荷量不变，改变距离：<span class="formula">F ∝ 1 / r²</span></div>
+ </div>
+</div></div><div class="page">05 / 10</div>
+</section>
 
-            <!-- === 06 多电荷问题：遵守独立作用与矢量叠加 === -->
-            <section class="slide">
-                <div class="hairlines"></div>
-                <div class="frame">
-                    <header class="topbar">
-                        <h2 class="reveal-left" data-edit>多个电荷怎么办？</h2>
-                        <div class="lab-tag reveal">矢量叠加<br><span class="mono">SUPERPOSITION</span></div>
-                    </header>
-                    <div class="superposition">
-                        <div class="vector-board reveal-scale d1">
-                            <div class="charge q0">+</div>
-                            <div class="charge q1">+</div>
-                            <div class="charge q2">+</div>
-                            <div class="vector v1"></div><span class="vector-label l1">F₁</span>
-                            <div class="vector v2"></div><span class="vector-label l2">F₂</span>
-                            <div class="vector vsum"></div><span class="vector-label ls">F合</span>
-                        </div>
-                        <div class="steps">
-                            <div class="step reveal d1"><b>01</b><div><h3 data-edit>分别计算</h3><p>每一对电荷之间都独立遵守库仑定律。</p></div></div>
-                            <div class="step reveal d2"><b>02</b><div><h3 data-edit>分别定向</h3><p>对指定研究对象，画出每个静电力的方向。</p></div></div>
-                            <div class="step reveal d3"><b>03</b><div><h3 data-edit>矢量合成</h3><p>同一直线代数相加；不共线用平行四边形法则。</p></div></div>
-                            <div class="vector-equation reveal d4">F合 = F₁ + F₂ + ···</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nav-hint">每个力独立存在，合力遵守矢量运算</div><div class="page-num">06 / 09</div>
-            </section>
+<!-- === Slide 6：扭秤实验（二） === -->
+<section class="slide">
+<div class="chrome"><span><b>库仑扭秤（二）</b>　分割电荷量</span><span>CHARGE</span></div>
+<div class="content"><div class="eyebrow reveal-left">核心思想二：电荷量平分</div><h2 class="reveal-left d1" data-edit>没有电荷量仪表，如何按比例改变 q？</h2>
+<div class="balance-layout">
+ <div class="split-visual fragment" data-step="1">
+  <div class="split-row"><div class="metal-ball">q</div><div class="contact-arrow">接触 →</div><div class="metal-ball">q/2</div><div class="metal-ball">q/2</div></div>
+  <div class="split-eq">两个完全相同的金属小球接触后，电荷量平分</div>
+  <div class="sequence"><span>q</span><b>→</b><span>q/2</span><b>→</b><span>q/4</span><b>→</b><span>…</span></div>
+ </div>
+ <div class="method">
+  <div class="method-block fragment" data-step="2"><b>巧妙设计</b>用完全相同的小球接触分电，实现电荷量按确定比例缩减。</div>
+  <div class="method-block fragment" data-step="3"><b>控制变量</b>保持距离 r 不变，分别改变 q₁、q₂，观察扭转角对应的力。</div>
+  <div class="result fragment" data-step="4">保持距离不变，改变电荷量：<span class="formula">F ∝ q₁q₂</span></div>
+ </div>
+</div></div><div class="page">06 / 10</div>
+</section>
 
-            <!-- === 07 典型例题：完整展示单位、代入、方向 === -->
-            <section class="slide">
-                <div class="hairlines"></div>
-                <div class="frame">
-                    <header class="topbar">
-                        <h2 class="reveal-left" data-edit>典型例题</h2>
-                        <div class="lab-tag reveal">单对点电荷<br><span class="mono">EXAMPLE 01</span></div>
-                    </header>
-                    <div class="example-grid">
-                        <div class="example-given reveal d1">
-                            <h3 data-edit>已知与模型</h3>
-                            <div class="given-row"><b>q₁</b><span>+2.0 μC</span></div>
-                            <div class="given-row"><b>q₂</b><span>−3.0 μC</span></div>
-                            <div class="given-row"><b>r</b><span>0.30 m</span></div>
-                            <div class="example-pair">
-                                <div class="charge left">+</div><div class="charge right">−</div>
-                                <div class="distance"><b>0.30 m</b></div>
-                            </div>
-                        </div>
-                        <div class="solution reveal d2">
-                            <h3 data-edit>求：静电力的大小与方向</h3>
-                            <div class="solution-line"><span class="n">01</span><p data-edit>单位统一：2.0 μC = 2.0×10⁻⁶ C；3.0 μC = 3.0×10⁻⁶ C</p></div>
-                            <div class="solution-line"><span class="n">02</span><p class="calculation">F = 9.0×10⁹ × <span style="white-space:nowrap">2.0×10⁻⁶×3.0×10⁻⁶</span> / 0.30²</p></div>
-                            <div class="solution-line"><span class="n">03</span><p class="calculation">F = 0.60 N</p></div>
-                            <div class="answer" data-edit>答案：力的大小为 0.60 N；异种电荷相互吸引，方向沿两电荷连线。</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="nav-hint">单位 → 大小 → 方向</div><div class="page-num">07 / 09</div>
-            </section>
+<!-- === Slide 7：库仑定律 === -->
+<section class="slide">
+<div class="chrome"><span><b>库仑定律</b>　Coulomb's Law</span><span>LAW</span></div>
+<div class="content"><div class="eyebrow reveal-left">实验规律上升为物理定律</div><h2 class="reveal-left d1">大小、方向与适用条件</h2>
+<div class="law-layout">
+ <div class="law-statement fragment" data-step="1"><p data-edit>真空中两个静止点电荷之间的相互作用力，与它们电荷量的乘积成正比，与它们距离的二次方成反比，作用力的方向在它们的连线上。</p><div class="hero-formula">F = k |q₁q₂| / r²</div></div>
+ <div class="law-info">
+  <div class="info-card fragment" data-step="2"><b>适用条件</b>① 真空中　② 静止点电荷</div>
+  <div class="info-card fragment" data-step="3"><b>方向</b>同种电荷相斥，异种电荷相吸；力沿两点电荷连线。</div>
+  <div class="info-card constant fragment" data-step="4"><b>静电力常量</b>k = 9.0 × 10⁹ N·m²/C²</div>
+ </div>
+</div></div><div class="page">07 / 10</div>
+</section>
 
-            <!-- === 08 易错点：用清单式复盘概念边界 === -->
-            <section class="slide">
-                <div class="hairlines"></div>
-                <div class="frame">
-                    <header class="topbar">
-                        <h2 class="reveal-left" data-edit>四个高频易错点</h2>
-                        <div class="lab-tag reveal">检查清单<br><span class="mono">BEFORE SUBMIT</span></div>
-                    </header>
-                    <div class="mistakes">
-                        <div class="mistake-row reveal d1"><span class="no">01</span><h3 data-edit>忘记平方</h3><p>距离变为 2 倍，静电力变为原来的 <strong>1/4</strong>，不是 1/2。</p></div>
-                        <div class="mistake-row reveal d2"><span class="no">02</span><h3 data-edit>单位没有换算</h3><p>μC 要乘 <strong>10⁻⁶</strong>，nC 要乘 <strong>10⁻⁹</strong>；距离统一用 m。</p></div>
-                        <div class="mistake-row reveal d3"><span class="no">03</span><h3 data-edit>正负号直接代公式</h3><p>公式中的绝对值计算<strong>大小</strong>；电荷正负用于判断<strong>方向</strong>。</p></div>
-                        <div class="mistake-row reveal d4"><span class="no">04</span><h3 data-edit>忽略适用模型</h3><p>先确认能否看作点电荷；多个电荷还要进行<strong>矢量叠加</strong>。</p></div>
-                    </div>
-                </div>
-                <div class="nav-hint">公式不难，模型、单位和方向最关键</div><div class="page-num">08 / 09</div>
-            </section>
+<!-- === Slide 8：宏微观对比 === -->
+<section class="slide">
+<div class="chrome"><span><b>例题 1</b>　氢原子中的两种基本相互作用</span><span>COMPARE</span></div>
+<div class="content"><div class="eyebrow reveal-left">静电力 vs 万有引力</div><h2 class="reveal-left d1" data-edit>在微观世界，谁占主导？</h2>
+<div class="atom-layout">
+ <div class="atom fragment" data-step="1"><div class="orbit"></div><div class="nucleus">+</div><div class="electron">−</div><div style="position:absolute;left:35px;bottom:28px;font:700 18px var(--font-mono);color:#777">氢核与电子的相互作用示意</div></div>
+ <div class="comparison">
+  <div class="force-card electric fragment" data-step="2"><b>库仑力 F<sub>库</sub></b><strong>≈ 8.2 × 10⁻⁸ N</strong></div>
+  <div class="force-card fragment" data-step="3"><b>万有引力 F<sub>引</sub></b><strong>≈ 3.6 × 10⁻⁴⁷ N</strong></div>
+  <div class="ratio fragment" data-step="4"><b>数量级之比</b><strong>F<sub>库</sub> / F<sub>引</sub> = 2.3 × 10³⁹</strong></div>
+  <div class="conclusion fragment" data-step="5" data-edit>研究微观带电粒子的相互作用时，万有引力远小于库仑力，通常可以忽略不计。</div>
+ </div>
+</div></div><div class="page">08 / 10</div>
+</section>
 
-            <!-- === 09 总结：用三个词收束课堂 === -->
-            <section class="slide closing">
-                <div class="hairlines"></div>
-                <div class="glitch"></div>
-                <div class="closing-copy">
-                    <div class="kicker reveal d1">今天带走的核心</div>
-                    <h2 class="reveal d2" data-edit>大小看公式<br>方向看电性<br>多个做叠加</h2>
-                </div>
-                <div class="closing-summary reveal d3">
-                    <div><b>MAGNITUDE</b><span>F = k|q₁q₂| / r²</span></div>
-                    <div><b>DIRECTION</b><span>同斥异吸，沿连线</span></div>
-                    <div><b>SUPERPOSITION</b><span>分别计算，矢量合成</span></div>
-                </div>
-                <div class="nav-hint">按 R 重新开始</div><div class="page-num">09 / 09</div>
-            </section>
-        </main>
-    </div>
+<!-- === Slide 9：叠加原理 === -->
+<section class="slide">
+<div class="chrome"><span><b>静电力的叠加</b>　矢量和</span><span>VECTOR</span></div>
+<div class="content"><div class="eyebrow reveal-left">多电荷系统</div><h2 class="reveal-left d1" data-edit>每个电荷独立作用，合力按矢量相加</h2>
+<div class="super-layout">
+ <div class="triangle-board fragment" data-step="1"><div class="triangle"></div><div class="tri-charge t1">+</div><div class="tri-charge t2">+</div><div class="tri-charge t3">+</div><div class="arrow v-a"></div><div class="arrow v-b"></div><div class="arrow v-s"></div><div class="vector-note">等边三角形顶点电荷：F₁、F₂ → F合</div></div>
+ <div class="super-copy">
+  <div class="principle fragment" data-step="2" data-edit>两个或两个以上点电荷对某一点电荷的作用力，等于各点电荷单独对该点电荷作用力的矢量和。</div>
+  <div class="equation fragment" data-step="3">F合 = F₁ + F₂ + ···</div>
+  <div class="steps fragment" data-step="4"><div><b>01</b>分别用库仑定律求力</div><div><b>02</b>判断每个力的方向</div><div><b>03</b>用平行四边形定则合成</div></div>
+ </div>
+</div></div><div class="page">09 / 10</div>
+</section>
 
-    <!-- === 舞台外辅助控件 === -->
-    <div class="progress" id="progress"></div>
-    <div class="edit-hotzone" title="编辑模式"></div>
-    <button class="edit-toggle" id="editToggle" title="编辑模式（E）" aria-label="切换编辑模式">✎</button>
-    <div class="edit-toast" id="editToast">编辑模式</div>
+<!-- === Slide 10：课堂小结与作业 === -->
+<section class="slide">
+<div class="chrome"><span>课堂小结与作业</span><b>RECAP</b></div>
+<div class="summary-card">
+ <h2 class="fragment" data-step="1">今天带走三件事</h2>
+ <div class="three"><div class="fragment" data-step="2"><b>01</b><span>一个模型<br>点电荷</span></div><div class="fragment" data-step="3"><b>02</b><span>一个实验<br>库仑扭秤</span></div><div class="fragment" data-step="4"><b>03</b><span>一个定律<br>库仑定律</span></div></div>
+ <div class="homework fragment" data-step="5" data-edit>课后作业：课后“练习与应用”第 2、3、5 题。</div>
+</div>
+<div class="attraction-scene fragment" data-step="6"><div class="final-charge positive">+</div><div class="final-charge negative">−</div></div>
+<div class="final-formula fragment" data-step="7"><span>F = k</span><span class="final-fraction"><span>|q₁q₂|</span><span>r²</span></span></div>
+<div class="hint">按 R 返回封面</div><div class="page">10 / 10</div>
+</section>
 
-    <script>
-        /* === QR 图形：用固定两色方格生成装饰，不承载真实链接 === */
-        document.querySelectorAll('.qr').forEach((qr, qIndex) => {
-            const pattern = qIndex % 2
-                ? [0,1,2,5,6,7,8,10,13,15,16,17,18,21,23,24,27,28,31,32,34,35,37,39,40,43,45,47,48,49,50,53,54,55,56,58,61,63]
-                : [0,1,2,5,6,7,8,10,14,15,16,18,21,23,24,25,26,30,31,33,35,36,38,40,42,44,47,48,49,54,55,56,58,60,61,62,63];
-            for (let i = 0; i < 64; i++) {
-                const cell = document.createElement('i');
-                if (pattern.includes(i)) cell.className = 'on';
-                qr.appendChild(cell);
-            }
-        });
+</main></div>
+<div class="progress" id="progress"></div><div class="edit-hotzone"></div><button class="edit-toggle" id="editToggle" title="编辑模式（E）">✎</button><div class="toast" id="toast">编辑模式</div>
+<script src="https://www.geogebra.org/apps/deployggb.js"></script>
+<script>
+/* === 在线 GeoGebra 运行库：GGB 活动文件仍从本地 assets 读取 === */
+function mountLocalGGB(containerId,fileName,width,height,is3D){
+ /* 每次刷新生成不同查询参数，强制浏览器重新读取原始 .ggb 文件。 */
+ const freshFileName=`${fileName}?reload=${Date.now()}`;
+ const params={id:`${containerId}-applet`,appName:"classic",width,height,fileName:freshFileName,showToolBar:false,showMenuBar:false,showAlgebraInput:false,showResetIcon:true,enableLabelDrags:false,enableShiftDragZoom:false,enableRightClick:false,showLogging:false,disableAutoScale:true,allowUpscale:false,borderColor:"#ff5a36"};
+ const views={is3D,AV:false,SV:false,CV:false,EV2:false,CP:false,PC:false,DA:false,FI:false,PV:false,macro:false};
+ const applet=new GGBApplet(params,views,"5.0");
+ applet.inject(containerId,"html5");
+ return applet;
+}
+const pendulumApplet=mountLocalGGB("ggb-pendulum","assets/1.ggb",902,722,false);
+const torsionApplet=mountLocalGGB("ggb-torsion","assets/2.ggb",812,642,true);
 
-        /* === 演示控制器：缩放、键盘、滚轮和触摸导航 === */
-        class SlidePresentation {
-            constructor() {
-                this.slides = [...document.querySelectorAll('.slide')];
-                this.currentSlide = 0;
-                this.stage = document.getElementById('deckStage');
-                this.progress = document.getElementById('progress');
-                this.wheelLocked = false;
-                this.touchStartX = 0;
-                this.setupStageScale();
-                this.setupNavigation();
-                this.showSlide(0);
-            }
-            setupStageScale() {
-                const scale = () => {
-                    const factor = Math.min(innerWidth / 1920, innerHeight / 1080);
-                    const x = (innerWidth - 1920 * factor) / 2;
-                    const y = (innerHeight - 1080 * factor) / 2;
-                    this.stage.style.transform = `translate(${x}px, ${y}px) scale(${factor})`;
-                };
-                scale();
-                addEventListener('resize', scale);
-            }
-            setupNavigation() {
-                addEventListener('keydown', (event) => {
-                    if (event.target.getAttribute && event.target.getAttribute('contenteditable') === 'true') return;
-                    if (['ArrowRight', 'ArrowDown', ' ', 'PageDown'].includes(event.key)) {
-                        event.preventDefault(); this.next();
-                    } else if (['ArrowLeft', 'ArrowUp', 'PageUp'].includes(event.key)) {
-                        event.preventDefault(); this.prev();
-                    } else if (event.key === 'Home' || event.key.toLowerCase() === 'r') {
-                        this.showSlide(0);
-                    } else if (event.key === 'End') {
-                        this.showSlide(this.slides.length - 1);
-                    }
-                });
-                addEventListener('wheel', (event) => {
-                    if (this.wheelLocked || Math.abs(event.deltaY) < 20) return;
-                    this.wheelLocked = true;
-                    event.deltaY > 0 ? this.next() : this.prev();
-                    setTimeout(() => this.wheelLocked = false, 520);
-                }, { passive: true });
-                addEventListener('touchstart', event => this.touchStartX = event.changedTouches[0].screenX, { passive: true });
-                addEventListener('touchend', event => {
-                    const dx = event.changedTouches[0].screenX - this.touchStartX;
-                    if (Math.abs(dx) > 55) dx < 0 ? this.next() : this.prev();
-                }, { passive: true });
-            }
-            showSlide(index) {
-                this.currentSlide = Math.max(0, Math.min(index, this.slides.length - 1));
-                this.slides.forEach((slide, i) => {
-                    slide.classList.toggle('active', i === this.currentSlide);
-                    slide.classList.toggle('visible', i === this.currentSlide);
-                });
-                this.progress.style.width = `${((this.currentSlide + 1) / this.slides.length) * 100}%`;
-                history.replaceState(null, '', `#${this.currentSlide + 1}`);
-            }
-            next() { this.showSlide(this.currentSlide + 1); }
-            prev() { this.showSlide(this.currentSlide - 1); }
-        }
-
-        /* === 内联编辑器：E 键切换，文本自动保存到本地浏览器 === */
-        class InlineEditor {
-            constructor() {
-                this.isActive = false;
-                this.editables = [...document.querySelectorAll('[data-edit]')];
-                this.key = 'coulombs-law-edits-v1';
-                this.restore();
-                this.editables.forEach((el, index) => {
-                    el.dataset.editIndex = index;
-                    el.addEventListener('input', () => this.save());
-                });
-            }
-            toggleEditMode() {
-                this.isActive = !this.isActive;
-                this.editables.forEach(el => el.setAttribute('contenteditable', String(this.isActive)));
-                document.getElementById('editToggle').classList.toggle('active', this.isActive);
-                this.toast(this.isActive ? '编辑模式已开启 · Ctrl/⌘+S 保存' : '编辑已保存');
-                if (!this.isActive) this.save();
-            }
-            save() {
-                localStorage.setItem(this.key, JSON.stringify(this.editables.map(el => el.innerHTML)));
-                this.toast('已保存到当前浏览器');
-            }
-            restore() {
-                try {
-                    const saved = JSON.parse(localStorage.getItem(this.key) || 'null');
-                    if (saved) this.editables.forEach((el, i) => { if (saved[i] != null) el.innerHTML = saved[i]; });
-                } catch (_) {}
-            }
-            toast(text) {
-                const toast = document.getElementById('editToast');
-                toast.textContent = text; toast.classList.add('show');
-                clearTimeout(this.toastTimer);
-                this.toastTimer = setTimeout(() => toast.classList.remove('show'), 1400);
-            }
-        }
-
-        const deck = new SlidePresentation();
-        const editor = new InlineEditor();
-        const hotzone = document.querySelector('.edit-hotzone');
-        const editToggle = document.getElementById('editToggle');
-        let hideTimeout = null;
-        hotzone.addEventListener('mouseenter', () => { clearTimeout(hideTimeout); editToggle.classList.add('show'); });
-        hotzone.addEventListener('mouseleave', () => {
-            hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400);
-        });
-        editToggle.addEventListener('mouseenter', () => clearTimeout(hideTimeout));
-        editToggle.addEventListener('mouseleave', () => {
-            hideTimeout = setTimeout(() => { if (!editor.isActive) editToggle.classList.remove('show'); }, 400);
-        });
-        editToggle.addEventListener('click', () => editor.toggleEditMode());
-        hotzone.addEventListener('click', () => editor.toggleEditMode());
-        document.addEventListener('keydown', event => {
-            if ((event.key === 'e' || event.key === 'E') && event.target.getAttribute('contenteditable') !== 'true') editor.toggleEditMode();
-            if ((event.ctrlKey || event.metaKey) && event.key.toLowerCase() === 's') {
-                event.preventDefault(); editor.save();
-            }
-        });
-
-        /* === 深链接：允许以 #3 等形式直接打开指定页 === */
-        const initial = Number(location.hash.slice(1));
-        if (Number.isFinite(initial) && initial > 0) deck.showSlide(initial - 1);
-    </script>
+/* === 演示控制器：保留顺滑换页与进度条 === */
+class SlidePresentation{
+ constructor(){this.slides=[...document.querySelectorAll(".slide")];this.current=0;this.stage=document.getElementById("deckStage");this.progress=document.getElementById("progress");this.wheelLocked=false;this.touchX=0;this.scale();this.bind();this.show(0)}
+ scale(){const fit=()=>{const s=Math.min(innerWidth/1920,innerHeight/1080),x=(innerWidth-1920*s)/2,y=(innerHeight-1080*s)/2;this.stage.style.transform=`translate(${x}px,${y}px) scale(${s})`};fit();addEventListener("resize",fit)}
+ bind(){addEventListener("keydown",e=>{if(e.target.getAttribute&&e.target.getAttribute("contenteditable")==="true")return;if(["ArrowRight","ArrowDown"," ","PageDown"].includes(e.key)){e.preventDefault();this.next()}else if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();this.prev()}else if(e.key==="Home"||e.key.toLowerCase()==="r")this.show(0);else if(e.key==="End")this.show(this.slides.length-1)});addEventListener("wheel",e=>{if(this.wheelLocked||Math.abs(e.deltaY)<20)return;this.wheelLocked=true;e.deltaY>0?this.next():this.prev();setTimeout(()=>this.wheelLocked=false,520)},{passive:true});addEventListener("touchstart",e=>this.touchX=e.changedTouches[0].screenX,{passive:true});addEventListener("touchend",e=>{const dx=e.changedTouches[0].screenX-this.touchX;if(Math.abs(dx)>55)dx<0?this.next():this.prev()},{passive:true})}
+ show(n){this.current=Math.max(0,Math.min(n,this.slides.length-1));this.slides.forEach((s,i)=>{s.classList.toggle("active",i===this.current);s.classList.toggle("visible",i===this.current);if(i===this.current)s.querySelectorAll(".fragment").forEach(f=>f.classList.remove("shown"))});this.progress.style.width=`${(this.current+1)/this.slides.length*100}%`;const page=this.current+1;sessionStorage.setItem("coulombs-law-C-current-slide",String(page));history.replaceState(null,"",`#${page}`)}
+ next(){const hidden=[...this.slides[this.current].querySelectorAll(".fragment:not(.shown)")].sort((a,b)=>(Number(a.dataset.step)||999)-(Number(b.dataset.step)||999));if(hidden.length){hidden[0].classList.add("shown");return}this.show(this.current+1)}
+ prev(){const shown=[...this.slides[this.current].querySelectorAll(".fragment.shown")].sort((a,b)=>(Number(a.dataset.step)||999)-(Number(b.dataset.step)||999));if(shown.length){shown[shown.length-1].classList.remove("shown");return}this.show(this.current-1)}
+}
+/* === 内联编辑：E 切换，Ctrl/⌘+S 保存 === */
+class InlineEditor{
+ constructor(){this.active=false;this.els=[...document.querySelectorAll("[data-edit]")];this.key="coulombs-law-C-edits-v1";this.restore();this.els.forEach(el=>el.addEventListener("input",()=>this.save(false)))}
+ toggle(){this.active=!this.active;this.els.forEach(el=>el.setAttribute("contenteditable",String(this.active)));editToggle.classList.toggle("active",this.active);this.note(this.active?"编辑模式已开启":"编辑已保存");if(!this.active)this.save(false)}
+ save(show=true){localStorage.setItem(this.key,JSON.stringify(this.els.map(el=>el.innerHTML)));if(show)this.note("已保存到当前浏览器")}
+ restore(){try{const x=JSON.parse(localStorage.getItem(this.key)||"null");if(x)this.els.forEach((el,i)=>{if(x[i]!=null)el.innerHTML=x[i]})}catch(_){}}
+ note(t){toast.textContent=t;toast.classList.add("show");clearTimeout(this.timer);this.timer=setTimeout(()=>toast.classList.remove("show"),1300)}
+}
+const hashSlide=Number(location.hash.slice(1));
+const storedSlide=Number(sessionStorage.getItem("coulombs-law-C-current-slide"));
+const requestedSlide=Number.isFinite(hashSlide)&&hashSlide>0?hashSlide:storedSlide;
+const deck=new SlidePresentation(),editor=new InlineEditor(),hotzone=document.querySelector(".edit-hotzone"),editToggle=document.getElementById("editToggle"),toast=document.getElementById("toast");let hideTimer;
+hotzone.addEventListener("mouseenter",()=>{clearTimeout(hideTimer);editToggle.classList.add("show")});hotzone.addEventListener("mouseleave",()=>hideTimer=setTimeout(()=>{if(!editor.active)editToggle.classList.remove("show")},400));editToggle.addEventListener("mouseenter",()=>clearTimeout(hideTimer));editToggle.addEventListener("mouseleave",()=>hideTimer=setTimeout(()=>{if(!editor.active)editToggle.classList.remove("show")},400));editToggle.addEventListener("click",()=>editor.toggle());hotzone.addEventListener("click",()=>editor.toggle());
+document.addEventListener("keydown",e=>{if((e.key==="e"||e.key==="E")&&e.target.getAttribute("contenteditable")!=="true")editor.toggle();if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==="s"){e.preventDefault();editor.save()}});
+if(Number.isFinite(requestedSlide)&&requestedSlide>0)deck.show(requestedSlide-1);
+</script>
 </body>
 </html>
