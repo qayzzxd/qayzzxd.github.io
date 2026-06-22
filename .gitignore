@@ -1,2 +1,5 @@
 .DS_Store
 GeoGebra/
+node_modules/
+.pnpm-store/
+电荷量均分动画.gif
