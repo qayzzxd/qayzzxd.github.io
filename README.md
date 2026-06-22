@@ -18,7 +18,7 @@ index.html
 index_local.html
 ```
 
-它从项目内约 115 MB 的 `GeoGebra` 目录加载运行库。`index_local.html` 和 `GeoGebra/` 仅用于本地授课环境，已加入 `.gitignore`，不会提交到 Git 仓库。
+它从项目内约 115 MB 的 `GeoGebra` 目录加载运行库。`index_local.html` 已纳入 Git；体积较大的 `GeoGebra/` 运行库仍仅保存在本地，不提交到仓库。
 
 ## 文件结构
 
@@ -26,7 +26,7 @@ index_local.html
 qayzzxd.github.io/
 ├── README.md
 ├── index.html
-├── index_local.html          # 本地文件，Git 忽略
+├── index_local.html
 ├── assets/
 │   ├── 1.ggb
 │   └── 2.ggb
@@ -40,7 +40,7 @@ qayzzxd.github.io/
 | 文件 | 说明 |
 | --- | --- |
 | `index.html` | 当前推荐的在线版本；橙黑高对比风格，10 页，使用在线 GeoGebra 运行库 |
-| `index_local.html` | 本地离线版本；内容相同，使用本地 GeoGebra 运行库，不提交到 Git |
+| `index_local.html` | 本地离线版本；内容相同，使用本地 GeoGebra 运行库 |
 | `assets/1.ggb` | 静电摆球实验，二维 GeoGebra 活动 |
 | `assets/2.ggb` | 库仑扭秤实验，包含三维视图 |
 | `GeoGebra/` | 约 115 MB 的离线 GeoGebra HTML5 运行环境，不提交到 Git |
