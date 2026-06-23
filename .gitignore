@@ -1,5 +1,25 @@
+# GeoGebra 离线网页运行库（体积较大，需单独下载）
+/GeoGebra/
+/geogebra-math-apps-bundle-*.zip
+/caddy_windows_amd64.exe
+/启动课件.bat
+
+# Node.js 依赖与包管理器缓存
+/node_modules/
+/.pnpm-store/
+
+# 日志与临时文件
+*.log
+*.tmp
+*.temp
+*~
+
+# 操作系统与编辑器文件
 .DS_Store
-GeoGebra/
-node_modules/
-.pnpm-store/
-电荷量均分动画.gif
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+
+# 旧版动画输出；当前课件使用 assets/split.gif
+/电荷量均分动画.gif
