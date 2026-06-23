@@ -168,9 +168,8 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 .chapter{font:900 31px var(--font-body);letter-spacing:.04em;margin-bottom:34px}
 .cover-title{font:900 74px/1.25 var(--font-body);letter-spacing:-3px;margin:0;width:1080px}.cover-title strong{display:block;font-size:148px;line-height:1;margin-top:24px;letter-spacing:-9px}
 .cover-sub{position:absolute;left:80px;bottom:66px;font:700 74px/1.4 var(--font-body)}
-.cover-orbit{position:absolute;right:216px;top:344px;width:168px;height:168px;border:4px solid var(--ink);border-radius:50%;z-index:5;display:grid;place-items:center;font:400 66px var(--font-display);animation:float 3.2s ease-in-out infinite}
-.vertical-formula{position:absolute;right:105px;bottom:165px;z-index:6;font:700 32px var(--font-mono);writing-mode:vertical-rl;color:#77716c}
-@keyframes float{50%{transform:translateY(-18px) rotate(4deg)}}
+.cover-charge-demo{position:absolute;right:45px;top:205px;width:430px;height:590px;z-index:6}.pendulum-anchor{position:absolute;left:235px;top:20px;width:42px;height:14px;background:var(--ink)}.pendulum-arm{position:absolute;left:255px;top:31px;width:2px;height:335px;background:var(--ink);transform-origin:1px 0;animation:pendulum-sway 3.4s ease-in-out infinite}.pendulum-arm:after{content:"+";position:absolute;left:50%;bottom:-34px;width:34px;height:34px;transform:translateX(-50%);border:3px solid var(--ink);border-radius:50%;background:var(--dark);color:var(--ink);display:grid;place-items:center;font:400 20px var(--font-display)}.fixed-charge{position:absolute;left:25px;top:336px;width:118px;height:118px;border-radius:50%;background:var(--orange);color:var(--dark);display:grid;place-items:center;font:400 56px var(--font-display)}.vertical-formula{position:absolute;right:28px;bottom:120px;z-index:6;font:700 25px var(--font-mono);writing-mode:vertical-rl;color:#77716c}
+@keyframes pendulum-sway{0%,100%{transform:rotate(-8deg)}50%{transform:rotate(-10deg)}}
 
 /* === Slide 2 静电摆球 === */
 .s2-grid{display:grid;grid-template-columns:910px 1fr;gap:74px;height:730px;margin-top:38px}
@@ -191,7 +190,7 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 .ggb-embed>div,.ggb-embed .applet_scaler,.ggb-embed .appletParameters{max-width:none;max-height:none}
 
 /* === Slide 3 猜想 === */
-.analogy{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px}.law-card{height:245px;padding:35px 44px;border:3px solid var(--line);position:relative}.law-card.orange-card{background:var(--orange);color:var(--dark);border-color:var(--orange)}.law-name{font:700 28px var(--font-body);letter-spacing:.04em}.law-formula{font:900 70px/1 var(--font-body);margin-top:32px}
+.analogy{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px}.law-card{height:245px;padding:35px 44px;border:3px solid var(--line);position:relative}.law-card.orange-card{background:var(--orange);color:var(--dark);border-color:var(--orange)}.law-name{font:700 28px var(--font-body);letter-spacing:.04em}.law-formula{font:900 62px/1 var(--font-body);margin-top:22px;display:flex;align-items:center;gap:16px}.stacked-frac{display:inline-grid;grid-template-rows:auto auto;text-align:center;vertical-align:middle;line-height:1}.stacked-frac .frac-num{padding:0 .2em .1em;border-bottom:.075em solid currentColor}.stacked-frac .frac-den{padding-top:.1em}.math-sub{font-size:.58em;line-height:0;vertical-align:-.28em}
 .guess{margin-top:42px;display:grid;grid-template-columns:1fr 1fr;gap:40px}.guess-main{height:290px;background:var(--ink);color:var(--dark);padding:38px 46px}.guess-main p{font-size:29px;margin:0 0 20px}.guess-main strong{font:900 76px/1.1 var(--font-body)}
 .history{height:290px;border:3px solid var(--orange);padding:30px 34px;display:grid;grid-template-rows:1fr 1fr}.history-row{display:grid;grid-template-columns:150px 1fr;align-items:center;padding:0 15px;border-bottom:1px solid #49433f;font-size:31px;line-height:1.35}.history-row:last-child{border-bottom:0}.history-row b{font-family:var(--font-body);font-size:29px;color:var(--orange)}
 
@@ -216,18 +215,19 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 .law-title{display:flex;align-items:center;gap:48px}.law-title-formula{display:flex;align-items:center;gap:16px;font:900 58px var(--font-body);letter-spacing:0}.law-title-fraction{display:inline-grid;grid-template-rows:auto auto;text-align:center;line-height:1.05}.law-title-fraction span:first-child{padding:0 18px 8px;border-bottom:5px solid var(--ink)}.law-title-fraction span:last-child{padding-top:7px}.law-info{display:flex;flex-direction:column;gap:24px}.info-card{padding:29px 32px;border:3px solid var(--line);font-size:36px;line-height:1.45}.info-card b{font:700 24px var(--font-mono);color:var(--orange);display:block;margin-bottom:12px}.constant{background:var(--ink);color:var(--dark);font:900 36px/1.4 var(--font-body)}
 
 /* === Slide 8 宏微观对比 === */
-.atom-layout{display:grid;grid-template-columns:640px 1fr;gap:58px;margin-top:35px}.atom{height:650px;position:relative;border:3px solid var(--line);overflow:hidden}.nucleus{position:absolute;left:250px;top:240px;width:145px;height:145px;background:var(--orange);color:var(--dark);border-radius:50%;display:grid;place-items:center;font:900 54px var(--font-display)}.electron{position:absolute;right:155px;top:180px;width:28px;height:28px;background:var(--ink);color:var(--dark);border-radius:50%;display:grid;place-items:center;font:900 18px var(--font-display)}
+.atom-layout{display:grid;grid-template-columns:640px 1fr;gap:58px;margin-top:35px}.atom{height:650px;position:relative;border:3px solid var(--line);overflow:hidden;background:radial-gradient(circle at 39% 50%,rgba(255,90,54,.08),transparent 42%)}.nucleus{position:absolute;left:105px;top:285px;width:145px;height:145px;background:var(--orange);color:var(--dark);border-radius:50%;display:grid;place-items:center;font:900 54px var(--font-display);z-index:3}.electron{position:absolute;right:82px;top:100px;width:28px;height:28px;background:var(--ink);color:var(--dark);border-radius:50%;display:grid;place-items:center;font:900 18px var(--font-display);z-index:3}
+.distance-label{position:absolute;left:300px;top:220px;padding:7px 12px;background:var(--dark);color:var(--orange);font:700 22px var(--font-mono);z-index:4}.particle-label{position:absolute;font:700 20px/1.35 var(--font-mono);z-index:4}.proton-label{left:80px;top:442px;color:var(--orange)}.electron-label{right:40px;top:143px;color:var(--ink)}.atom-known{position:absolute;left:24px;right:24px;bottom:24px;padding:18px 22px;border-top:3px solid var(--orange);background:#222;display:grid;grid-template-columns:1fr 1fr;gap:10px 22px;font:700 20px/1.35 var(--font-mono)}.atom-known b{grid-column:1/-1;color:var(--orange);font-size:18px;letter-spacing:.12em}.atom-known span{white-space:nowrap}
 .comparison{display:flex;flex-direction:column;gap:16px}.force-card{height:140px;border:3px solid var(--line);padding:22px 34px;display:flex;justify-content:space-between;align-items:end}.force-card b{font-size:36px}.force-card strong{font:900 42px var(--font-mono)}.force-card.electric{background:var(--orange);color:var(--dark);border-color:var(--orange)}
-.ratio{height:185px;background:var(--ink);color:var(--dark);padding:30px 36px}.ratio b{font:700 24px var(--font-mono)}.ratio strong{display:block;font:900 58px var(--font-body);margin-top:14px}.conclusion{font-size:36px;line-height:1.45;border-left:10px solid var(--orange);padding:22px 28px;background:#222}
+.force-card sup,.ratio sup{font-size:.58em;line-height:0;vertical-align:super;letter-spacing:0}.ratio{height:185px;background:var(--ink);color:var(--dark);padding:30px 36px}.ratio b{font:700 24px var(--font-mono)}.ratio strong{display:block;font:900 58px var(--font-body);margin-top:14px}.conclusion{font-size:36px;line-height:1.45;border-left:10px solid var(--orange);padding:22px 28px;background:#222}
 
 /* === Slide 9 叠加 === */
 .super-layout{display:grid;grid-template-columns:770px 1fr;gap:65px;margin-top:34px}.triangle-board{height:650px;border:3px solid var(--line);position:relative}.tri-charge{position:absolute;width:64px;height:64px;border-radius:50%;background:var(--orange);color:var(--dark);display:grid;place-items:center;font:900 30px var(--font-display);z-index:4}.t1{left:353px;top:80px}.t2{left:130px;top:465px}.t3{right:130px;top:465px}
-.super-copy{display:flex;flex-direction:column;gap:28px}.super-copy .principle{background:var(--orange);color:var(--dark);padding:35px 38px;font:700 36px/1.45 var(--font-body)}.super-copy .equation{font:900 61px var(--font-body);padding:31px;border:3px solid var(--ink)}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.steps div{padding:24px 19px;background:#222;font-size:36px;line-height:1.35}.steps b{display:block;font:700 24px var(--font-mono);color:var(--orange);margin-bottom:10px}
+.super-copy{display:flex;flex-direction:column;gap:28px}.super-copy .principle{background:var(--orange);color:var(--dark);padding:35px 38px;font:700 36px/1.45 var(--font-body)}.super-copy .equation{font:900 61px var(--font-body);padding:31px;border:3px solid var(--ink)}.equation .vec{position:relative;display:inline-block;padding-top:.12em}.equation .vec:before{content:"";position:absolute;left:.08em;right:.02em;top:.08em;border-top:.055em solid currentColor}.equation .vec:after{content:"";position:absolute;right:-.01em;top:.015em;width:.13em;height:.13em;border-top:.055em solid currentColor;border-right:.055em solid currentColor;transform:rotate(45deg)}.equation sub{font-size:.52em;vertical-align:-.3em}.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.steps div{padding:24px 19px;background:#222;font-size:36px;line-height:1.35}.steps b{display:block;font:700 24px var(--font-mono);color:var(--orange);margin-bottom:10px}
 
 /* === Slide 10 总结 === */
 .summary-card{position:absolute;left:90px;top:175px;width:1260px;height:700px;background:var(--orange);color:var(--dark);padding:55px 65px;z-index:4}.summary-card h2{font-size:90px;margin-bottom:42px}.three{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.three div{border-top:7px solid var(--dark);padding-top:24px}.three b{display:block;font:900 80px var(--font-display)}.three span{font:900 31px var(--font-body)}.homework{position:absolute;left:65px;right:65px;bottom:55px;border-top:3px solid rgba(20,20,20,.45);padding-top:20px;font:700 28px var(--font-body)}
 .attraction-scene{position:absolute;right:55px;top:245px;width:520px;height:310px;z-index:6}.final-charge{position:absolute;top:92px;width:48px;height:48px;border:4px solid var(--ink);border-radius:50%;display:grid;place-items:center;font:900 25px var(--font-display);color:var(--ink);transition:transform 1.15s var(--ease)}.final-charge.positive{left:0}.final-charge.negative{right:0}.attraction-scene.shown .positive{transform:translateX(145px)}.attraction-scene.shown .negative{transform:translateX(-145px)}
-.final-formula{position:absolute;right:68px;top:565px;width:500px;z-index:7;display:flex;align-items:center;justify-content:center;gap:18px;padding:23px 18px;border:4px solid var(--orange);font:900 42px var(--font-body);color:var(--ink);background:#171717}.final-fraction{display:inline-grid;grid-template-rows:auto auto;text-align:center;line-height:1.05}.final-fraction span:first-child{padding:0 16px 9px;border-bottom:4px solid var(--ink)}.final-fraction span:last-child{padding-top:8px}
+.final-formula{position:absolute;right:48px;top:545px;width:440px;z-index:7;display:flex;align-items:center;justify-content:center;gap:18px;padding:27px 18px;border:4px solid var(--orange);font:900 54px var(--font-body);color:var(--ink);background:#171717}.final-fraction{display:inline-grid;grid-template-rows:auto auto;text-align:center;line-height:1.05}.final-fraction span:first-child{padding:0 14px 10px;border-bottom:5px solid var(--ink)}.final-fraction span:last-child{padding-top:9px}
 
 /* === 进度与内联编辑 === */
 .progress{position:fixed;left:0;bottom:0;height:5px;background:var(--orange);z-index:9000;transition:width .3s ease}
@@ -245,7 +245,7 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
   <h1 class="cover-title reveal d2" data-edit>第2节<strong>库仑定律</strong></h1>
   <div class="cover-sub reveal d3" data-edit>电荷间相互作用的定量规律</div>
 </div>
-<div class="cover-orbit reveal-scale d3">+</div><div class="vertical-formula">F = k |q₁q₂| / r²</div>
+<div class="cover-charge-demo reveal-scale d3"><div class="pendulum-anchor"></div><div class="pendulum-arm"></div><div class="fixed-charge">+</div></div><div class="vertical-formula">F = k |q₁q₂| / r²</div>
 <div class="page">01 / 10</div>
 </section>
 
@@ -278,8 +278,8 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 <div class="chrome"><span><b>科学猜想</b>　类比万有引力</span><span>ANALOGY</span></div>
 <div class="content"><h2 class="fragment" data-step="2" data-edit>电荷间的力，也遵守相似规律吗？</h2>
 <div class="analogy">
- <div class="law-card fragment" data-step="1"><div class="law-name">万有引力</div><div class="law-formula">F = G m₁m₂ / r²</div></div>
- <div class="law-card orange-card fragment" data-step="4"><div class="law-name">静电力猜想</div><div class="law-formula">F ∝ q₁q₂ / r² ?</div></div>
+ <div class="law-card fragment" data-step="1"><div class="law-name">万有引力</div><div class="law-formula"><span>F = G</span><span class="stacked-frac"><span class="frac-num">m₁m₂</span><span class="frac-den">r²</span></span></div></div>
+ <div class="law-card orange-card fragment" data-step="4"><div class="law-name">静电力猜想</div><div class="law-formula"><span>F ∝</span><span class="stacked-frac"><span class="frac-num">q<sub class="math-sub">1</sub>q<sub class="math-sub">2</sub></span><span class="frac-den">r²</span></span><span>?</span></div></div>
 </div>
 <div class="guess">
  <div class="guess-main fragment" data-step="3"><p data-edit>把“质量”替换成“电荷量”，形式是否仍然成立？</p><strong>平方反比</strong></div>
@@ -296,7 +296,7 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
  <div class="method">
   <div class="method-block fragment" data-step="2"><b>结构解析</b>细银丝悬挂绝缘棒，A 球随棒转动；C 球靠近 A 球产生静电力。</div>
   <div class="method-block fragment" data-step="3"><b>转化放大</b>静电力使细银丝扭转。通过扭转角 θ，比较和测量微小的静电力。</div>
-  <div class="result fragment" data-step="4">保持电荷量不变，改变距离：<span class="formula">F ∝ 1 / r²</span></div>
+  <div class="result fragment" data-step="4">保持电荷量不变，改变距离：<span class="formula">F ∝ <span class="stacked-frac"><span class="frac-num">1</span><span class="frac-den">r²</span></span></span></div>
  </div>
 </div></div><div class="page">05 / 10</div>
 </section>
@@ -309,8 +309,8 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
  <div class="split-visual fragment" data-step="1"><img src="assets/split.gif" alt="相同金属小球接触后电荷量平分的动态演示"></div>
  <div class="method">
   <div class="method-block fragment" data-step="2"><b>巧妙设计</b>用完全相同的小球接触分电，实现电荷量按确定比例缩减。</div>
-  <div class="method-block fragment" data-step="3"><b>控制变量</b>保持距离 r 不变，分别改变 q₁、q₂，观察扭转角对应的力。</div>
-  <div class="result fragment" data-step="4">保持距离不变，改变电荷量：<span class="formula">F ∝ q₁q₂</span></div>
+  <div class="method-block fragment" data-step="3"><b>控制变量</b>保持距离 r 不变，分别改变 q<sub class="math-sub">1</sub>、q<sub class="math-sub">2</sub>，观察扭转角对应的力。</div>
+  <div class="result fragment" data-step="4">保持距离不变，改变电荷量：<span class="formula">F ∝ q<sub class="math-sub">1</sub>q<sub class="math-sub">2</sub></span></div>
  </div>
 </div></div><div class="page">06 / 10</div>
 </section>
@@ -318,7 +318,7 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 <!-- === Slide 7：库仑定律 === -->
 <section class="slide">
 <div class="chrome"><span><b>COULOMB'S LAW</b></span><span>LAW</span></div>
-<div class="content"><h2 class="law-title reveal-left d1"><span>库仑定律</span><span class="law-title-formula"><span>F = k</span><span class="law-title-fraction"><span>|q₁q₂|</span><span>r²</span></span></span></h2>
+<div class="content"><h2 class="law-title reveal-left d1"><span>库仑定律</span><span class="law-title-formula"><span>F = k</span><span class="law-title-fraction"><span>|q<sub class="math-sub">1</sub>q<sub class="math-sub">2</sub>|</span><span>r²</span></span></span></h2>
 <div class="law-layout">
  <div class="ggb-embed law-applet fragment" data-step="1" id="ggb-law"></div>
  <div class="law-info">
@@ -332,14 +332,19 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 <!-- === Slide 8：宏微观对比 === -->
 <section class="slide">
 <div class="chrome"><span><b>例题 1</b>　氢原子中的两种基本相互作用</span><span>COMPARE</span></div>
-<div class="content"><h2 class="reveal-left d1" data-edit>在微观世界，谁占主导？</h2>
+<div class="content"><h2 class="fragment" data-step="1" data-edit>在微观世界，谁占主导？</h2>
 <div class="atom-layout">
- <div class="atom fragment" data-step="1"><div class="nucleus">+</div><div class="electron">−</div></div>
+ <div class="atom">
+  <div class="distance-label">r = 5.3 × 10⁻¹¹ m</div>
+  <div class="nucleus">+</div><div class="particle-label proton-label">质子 p</div>
+  <div class="electron">−</div><div class="particle-label electron-label">电子 e</div>
+  <div class="atom-known"><b>已知条件</b><span>qₚ = +1.6 × 10⁻¹⁹ C</span><span>qₑ = −1.6 × 10⁻¹⁹ C</span><span>mₚ = 1.67 × 10⁻²⁷ kg</span><span>mₑ = 9.1 × 10⁻³¹ kg</span></div>
+ </div>
  <div class="comparison">
-  <div class="force-card fragment" data-step="2"><b>库仑力 F<sub>库</sub></b><strong>≈ 8.2 × 10⁻⁸ N</strong></div>
-  <div class="force-card fragment" data-step="3"><b>万有引力 F<sub>引</sub></b><strong>≈ 3.6 × 10⁻⁴⁷ N</strong></div>
-  <div class="ratio fragment" data-step="4"><strong>F<sub>库</sub> / F<sub>引</sub> = 2.3 × 10³⁹</strong></div>
-  <div class="conclusion fragment" data-step="5" data-edit>研究微观带电粒子的相互作用时，万有引力远小于库仑力，通常可以忽略不计。</div>
+  <div class="force-card fragment" data-step="2"><b>库仑力 F<sub>库</sub></b><strong class="fragment" data-step="3">≈ 8.2 × 10<sup>−8</sup> N</strong></div>
+  <div class="force-card fragment" data-step="4"><b>万有引力 F<sub>引</sub></b><strong class="fragment" data-step="5">≈ 3.6 × 10<sup>−47</sup> N</strong></div>
+  <div class="ratio fragment" data-step="6"><strong>F<sub>库</sub> / F<sub>引</sub> = 2.3 × 10<sup>39</sup></strong></div>
+  <div class="conclusion fragment" data-step="7" data-edit>研究微观带电粒子的相互作用时，万有引力远小于库仑力，通常可以忽略不计。</div>
  </div>
 </div></div><div class="page">08 / 10</div>
 </section>
@@ -352,7 +357,7 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
  <div class="triangle-board fragment" data-step="1"><div class="tri-charge t1">+</div><div class="tri-charge t2">+</div><div class="tri-charge t3">+</div></div>
  <div class="super-copy">
   <div class="principle fragment" data-step="3" data-edit>两个或两个以上点电荷对某一点电荷的作用力，等于各点电荷单独对该点电荷作用力的矢量和。</div>
-  <div class="equation fragment" data-step="4">F合 = F₁ + F₂ + ···</div>
+  <div class="equation fragment" data-step="4"><span class="vec">F</span><sub>合</sub> = <span class="vec">F</span><sub>1</sub> + <span class="vec">F</span><sub>2</sub> + ···</div>
  </div>
 </div></div><div class="page">09 / 10</div>
 </section>
@@ -365,9 +370,9 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
  <div class="three"><div class="fragment" data-step="1"><b>01</b><span>一个模型<br>点电荷</span></div><div class="fragment" data-step="2"><b>02</b><span>一个实验<br>库仑扭秤</span></div><div class="fragment" data-step="3"><b>03</b><span>一个定律<br>库仑定律</span></div></div>
  <div class="homework fragment" data-step="4" data-edit>课后作业：课后“练习与应用”第 2、3、5 题。</div>
 </div>
-<div class="attraction-scene fragment" data-step="5"><div class="final-charge positive">+</div><div class="final-charge negative">−</div></div>
-<div class="final-formula fragment" data-step="6"><span>F = k</span><span class="final-fraction"><span>|q₁q₂|</span><span>r²</span></span></div>
-<div class="hint">按 R 返回封面</div><div class="page">10 / 10</div>
+<div class="attraction-scene fragment" data-step="5" id="finalAttraction"><div class="final-charge positive">+</div><div class="final-charge negative">−</div></div>
+<div class="final-formula fragment" data-auto id="finalFormula"><span>F = k</span><span class="final-fraction"><span>|q<sub class="math-sub">1</sub>q<sub class="math-sub">2</sub>|</span><span>r²</span></span></div>
+<div class="page">10 / 10</div>
 </section>
 
 </main></div>
@@ -395,12 +400,12 @@ function ensureLawApplet(){
 
 /* === 演示控制器：保留顺滑换页与进度条 === */
 class SlidePresentation{
- constructor(){this.slides=[...document.querySelectorAll(".slide")];this.current=0;this.stage=document.getElementById("deckStage");this.progress=document.getElementById("progress");this.wheelLocked=false;this.touchX=0;this.scale();this.bind();this.show(0)}
+ constructor(){this.slides=[...document.querySelectorAll(".slide")];this.current=0;this.stage=document.getElementById("deckStage");this.progress=document.getElementById("progress");this.wheelLocked=false;this.touchX=0;this.finalTimer=null;this.scale();this.bind();this.show(0)}
  scale(){const fit=()=>{const s=Math.min(innerWidth/1920,innerHeight/1080),x=(innerWidth-1920*s)/2,y=(innerHeight-1080*s)/2;this.stage.style.transform=`translate(${x}px,${y}px) scale(${s})`};fit();addEventListener("resize",fit)}
  bind(){addEventListener("keydown",e=>{if(e.target.getAttribute&&e.target.getAttribute("contenteditable")==="true")return;if(["ArrowRight","ArrowDown"," ","PageDown"].includes(e.key)){e.preventDefault();this.next()}else if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();this.prev()}else if(e.key==="Home"||e.key.toLowerCase()==="r")this.show(0);else if(e.key==="End")this.show(this.slides.length-1)});addEventListener("wheel",e=>{if(this.wheelLocked||Math.abs(e.deltaY)<20)return;this.wheelLocked=true;e.deltaY>0?this.next():this.prev();setTimeout(()=>this.wheelLocked=false,520)},{passive:true});addEventListener("touchstart",e=>this.touchX=e.changedTouches[0].screenX,{passive:true});addEventListener("touchend",e=>{const dx=e.changedTouches[0].screenX-this.touchX;if(Math.abs(dx)>55)dx<0?this.next():this.prev()},{passive:true})}
- show(n){this.current=Math.max(0,Math.min(n,this.slides.length-1));this.slides.forEach((s,i)=>{s.classList.toggle("active",i===this.current);s.classList.toggle("visible",i===this.current);if(i===this.current)s.querySelectorAll(".fragment").forEach(f=>f.classList.remove("shown"))});this.progress.style.width=`${(this.current+1)/this.slides.length*100}%`;const page=this.current+1;sessionStorage.setItem("coulombs-law-C-current-slide",String(page));history.replaceState(null,"",`#${page}`)}
- next(){const hidden=[...this.slides[this.current].querySelectorAll(".fragment:not(.shown)")].sort((a,b)=>(Number(a.dataset.step)||999)-(Number(b.dataset.step)||999));if(hidden.length){hidden[0].classList.add("shown");if(hidden[0].id==="ggb-law")ensureLawApplet();return}this.show(this.current+1)}
- prev(){const shown=[...this.slides[this.current].querySelectorAll(".fragment.shown")].sort((a,b)=>(Number(a.dataset.step)||999)-(Number(b.dataset.step)||999));if(shown.length){shown[shown.length-1].classList.remove("shown");return}if(this.current===0)return;this.show(this.current-1);this.slides[this.current].querySelectorAll(".fragment").forEach(f=>f.classList.add("shown"));if(this.slides[this.current].querySelector("#ggb-torsion"))ensureTorsionApplet();if(this.slides[this.current].querySelector("#ggb-law"))ensureLawApplet()}
+ show(n){clearTimeout(this.finalTimer);this.current=Math.max(0,Math.min(n,this.slides.length-1));this.slides.forEach((s,i)=>{s.classList.toggle("active",i===this.current);s.classList.toggle("visible",i===this.current);if(i===this.current)s.querySelectorAll(".fragment").forEach(f=>f.classList.remove("shown"))});this.progress.style.width=`${(this.current+1)/this.slides.length*100}%`;const page=this.current+1;sessionStorage.setItem("coulombs-law-C-current-slide",String(page));history.replaceState(null,"",`#${page}`)}
+ next(){const hidden=[...this.slides[this.current].querySelectorAll(".fragment:not(.shown):not([data-auto])")].sort((a,b)=>(Number(a.dataset.step)||999)-(Number(b.dataset.step)||999));if(hidden.length){hidden[0].classList.add("shown");if(hidden[0].id==="ggb-law")ensureLawApplet();if(hidden[0].id==="finalAttraction"){clearTimeout(this.finalTimer);this.finalTimer=setTimeout(()=>{if(hidden[0].classList.contains("shown"))document.getElementById("finalFormula").classList.add("shown")},1200)}return}this.show(this.current+1)}
+ prev(){clearTimeout(this.finalTimer);const shown=[...this.slides[this.current].querySelectorAll(".fragment.shown:not([data-auto])")].sort((a,b)=>(Number(a.dataset.step)||999)-(Number(b.dataset.step)||999));if(shown.length){const last=shown[shown.length-1];last.classList.remove("shown");if(last.id==="finalAttraction")document.getElementById("finalFormula").classList.remove("shown");return}if(this.current===0)return;this.show(this.current-1);this.slides[this.current].querySelectorAll(".fragment:not([data-auto])").forEach(f=>f.classList.add("shown"));if(this.slides[this.current].querySelector("#ggb-torsion"))ensureTorsionApplet();if(this.slides[this.current].querySelector("#ggb-law"))ensureLawApplet()}
 }
 /* === 内联编辑：E 切换，Ctrl/⌘+S 保存 === */
 class InlineEditor{
