@@ -179,7 +179,7 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 .body-c{position:absolute;right:100px;top:375px;width:122px;height:122px;border:7px solid var(--orange);border-radius:50%;display:grid;place-items:center;font:900 45px var(--font-display);color:var(--orange)}
 .interaction{position:absolute;left:615px;top:450px;width:175px;color:var(--orange)}
 .lab-caption{position:absolute;left:35px;bottom:26px;font:700 18px var(--font-mono);color:#777}
-.questions{display:flex;flex-direction:column;gap:25px}.q-card{padding:34px 34px;border-left:10px solid var(--orange);background:#20201f;font-size:36px;line-height:1.45}.q-card b{font:700 24px var(--font-mono);color:var(--orange);display:block;margin-bottom:12px}
+.questions{display:flex;flex-direction:column;gap:25px}.q-card{padding:34px 34px;border-left:10px solid var(--orange);background:#20201f;font-size:36px;line-height:1.45}.q-card b{font:700 24px var(--font-mono);color:var(--orange);display:block;margin-bottom:12px}.q-card .q-key{font-weight:900;color:var(--ink)}
 .finding{margin-top:0;background:var(--orange);color:var(--dark);padding:22px 34px;display:grid;row-gap:4px;font:900 50px/1.3 var(--font-body)}.finding b{font-size:46px;line-height:1.3}.finding-lines{display:grid}.finding-lines span{display:block;white-space:nowrap}
 .fragment{opacity:0;transform:translateY(30px);visibility:hidden;transition:opacity .5s var(--ease),transform .5s var(--ease),visibility 0s linear .5s}
 .fragment.shown{opacity:1;transform:none;visibility:visible;transition-delay:0s}
@@ -190,14 +190,14 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 .ggb-embed>div,.ggb-embed .applet_scaler,.ggb-embed .appletParameters{max-width:none;max-height:none}
 
 /* === Slide 3 猜想 === */
-.analogy{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px}.law-card{height:245px;padding:35px 44px;border:3px solid var(--line);position:relative}.law-card.orange-card{background:var(--orange);color:var(--dark);border-color:var(--orange)}.law-name{font:700 28px var(--font-body);letter-spacing:.04em}.law-formula{font:900 62px/1 var(--font-body);margin-top:22px;display:flex;align-items:center;gap:16px}.stacked-frac{display:inline-grid;grid-template-rows:auto auto;text-align:center;vertical-align:middle;line-height:1}.stacked-frac .frac-num{padding:0 .2em .1em;border-bottom:.075em solid currentColor}.stacked-frac .frac-den{padding-top:.1em}.math-sub{font-size:.58em;line-height:0;vertical-align:-.28em}
+.gravity-header{opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility 0s linear .5s}.slide:has(.gravity-card.shown) .gravity-header{opacity:1;visibility:visible;transition-delay:0s}.analogy{display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-top:44px}.law-card{height:245px;padding:35px 44px;border:3px solid var(--line);position:relative}.law-card.orange-card{background:var(--orange);color:var(--dark);border-color:var(--orange)}.law-name{font:700 28px var(--font-body);letter-spacing:.04em}.law-formula{font:900 62px/1 var(--font-body);margin-top:22px;display:flex;align-items:center;gap:16px}.stacked-frac{display:inline-grid;grid-template-rows:auto auto;text-align:center;vertical-align:middle;line-height:1}.stacked-frac .frac-num{padding:0 .2em .1em;border-bottom:.075em solid currentColor}.stacked-frac .frac-den{padding-top:.1em}.math-sub{font-size:.58em;line-height:0;vertical-align:-.28em}
 .guess{margin-top:42px;display:grid;grid-template-columns:1fr 1fr;gap:40px}.guess-main{height:290px;background:var(--ink);color:var(--dark);padding:38px 46px}.guess-main p{font-size:29px;margin:0 0 20px}.guess-main strong{font:900 76px/1.1 var(--font-body)}
 .history{height:290px;border:3px solid var(--orange);padding:30px 34px;display:grid;grid-template-rows:1fr 1fr}.history-row{display:grid;grid-template-columns:150px 1fr;align-items:center;padding:0 15px;border-bottom:1px solid #49433f;font-size:31px;line-height:1.35}.history-row:last-child{border-bottom:0}.history-row b{font-family:var(--font-body);font-size:29px;color:var(--orange)}
 
 /* === Slide 4 点电荷 === */
 .model-layout{display:grid;grid-template-columns:1.05fr .95fr;gap:55px;margin-top:42px}.definition{height:475px;background:var(--orange);color:var(--dark);padding:48px 52px}.definition b{font:900 100px/1 var(--font-display)}.definition p{font-size:36px;line-height:1.55;margin:27px 0 0}
-.model-visual{height:475px;border:3px solid var(--line);position:relative}.real-body{position:absolute;left:80px;top:120px;width:210px;height:210px;border:6px solid var(--muted);border-radius:45% 55% 60% 40%;display:grid;place-items:center;font-size:36px}.transform{position:absolute;left:320px;top:220px;width:170px;color:var(--orange)}.point-charge{position:absolute;right:188px;top:213px;width:24px;height:24px;background:var(--orange);border-radius:50%}.point-charge-label{position:absolute;right:145px;top:178px;color:var(--orange);font:900 40px var(--font-display)}
-.compare-label{position:absolute;bottom:42px;left:70px;right:70px;display:flex;justify-content:space-between;font:700 28px var(--font-mono)}
+.model-visual{height:475px;border:3px solid var(--line);position:relative}.real-body{position:absolute;left:80px;top:120px;width:210px;height:210px;border:6px solid var(--muted);border-radius:45% 55% 60% 40%;display:grid;place-items:center;font-size:36px}.transform{position:absolute;left:320px;top:220px;width:170px;color:var(--orange)}.point-result{position:absolute;inset:0}.point-charge{position:absolute;right:188px;top:213px;width:24px;height:24px;background:var(--orange);border-radius:50%}.point-charge-label{position:absolute;right:145px;top:178px;color:var(--orange);font:900 40px var(--font-display)}
+.compare-label,.source-label,.result-label{position:absolute;bottom:42px;font:700 28px var(--font-mono)}.source-label{left:70px}.result-label{right:70px}
 .model-eyebrow{font-size:28px;letter-spacing:.08em}
 .checks{display:grid;grid-template-columns:1fr 1fr;gap:32px;margin-top:32px}.check{border-top:5px solid var(--orange);padding:22px 24px;font-size:29px;line-height:1.45}.check b{display:block;color:var(--orange);font:700 25px var(--font-body);margin-bottom:12px}
 
@@ -229,7 +229,15 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 .attraction-scene{position:absolute;right:55px;top:245px;width:520px;height:310px;z-index:6}.final-charge{position:absolute;top:92px;width:48px;height:48px;border:4px solid var(--ink);border-radius:50%;display:grid;place-items:center;font:900 25px var(--font-display);color:var(--ink);transition:transform 1.15s var(--ease)}.final-charge.positive{left:0}.final-charge.negative{right:0}.attraction-scene.shown .positive{transform:translateX(145px)}.attraction-scene.shown .negative{transform:translateX(-145px)}
 .final-formula{position:absolute;right:48px;top:545px;width:440px;z-index:7;display:flex;align-items:center;justify-content:center;gap:18px;padding:27px 18px;border:4px solid var(--orange);font:900 54px var(--font-body);color:var(--ink);background:#171717}.final-fraction{display:inline-grid;grid-template-rows:auto auto;text-align:center;line-height:1.05}.final-fraction span:first-child{padding:0 14px 10px;border-bottom:5px solid var(--ink)}.final-fraction span:last-child{padding-top:9px}
 
-/* === 进度与内联编辑 === */
+/* === 左下翻页按钮、进度与内联编辑 === */
+.deck-controls{position:fixed;left:8px;bottom:20px;z-index:8000;display:flex;flex-direction:column;gap:4px;transform:none}
+.deck-controls button{width:24px;height:24px;padding:0;border:1px solid rgba(244,239,228,.35);border-radius:5px;background:rgba(23,23,23,.55);color:rgba(244,239,228,.58);display:flex;align-items:center;justify-content:center;font-size:0;cursor:pointer;box-shadow:0 3px 9px rgba(0,0,0,.18);transition:background .2s ease,color .2s ease,border-color .2s ease,transform .2s ease}
+.deck-controls button:before{content:"";width:6px;height:6px;border:solid currentColor;border-width:0 1.5px 1.5px 0}
+#prevSlide:before{transform:rotate(-135deg)}
+#nextSlide:before{transform:rotate(45deg)}
+.deck-controls button:hover{background:rgba(255,90,54,.28);color:rgba(244,239,228,.82);border-color:rgba(255,90,54,.58);transform:translateX(2px)}
+.deck-controls button:active{transform:translateX(2px) scale(.94)}
+.deck-controls button:focus-visible{outline:4px solid var(--orange);outline-offset:4px}
 .progress{position:fixed;left:0;bottom:0;height:5px;background:var(--orange);z-index:9000;transition:width .3s ease}
 .edit-hotzone{position:fixed;top:0;left:0;width:80px;height:80px;z-index:10000;cursor:pointer}.edit-toggle{position:fixed;top:14px;left:14px;width:48px;height:48px;border:2px solid var(--orange);background:var(--dark);color:var(--orange);opacity:0;pointer-events:none;transition:opacity .3s;z-index:10001;cursor:pointer}.edit-toggle.show,.edit-toggle.active{opacity:1;pointer-events:auto}[contenteditable=true]{outline:3px dashed var(--orange2);outline-offset:5px}.toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);z-index:10002;background:var(--orange);color:var(--dark);padding:12px 22px;font:700 14px var(--font-mono);opacity:0;transition:opacity .25s}.toast.show{opacity:1}
 </style>
@@ -256,8 +264,8 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 <div class="s2-grid">
  <div class="ggb-embed reveal-scale d2" id="ggb-pendulum"></div>
  <div class="questions">
-  <div class="q-card fragment"><b>QUESTION 01</b><span data-edit>电荷间的作用力与它们之间的距离有什么关系？</span></div>
-  <div class="q-card fragment"><b>QUESTION 02</b><span data-edit>电荷间的作用力与它们所带的电荷量有什么关系？</span></div>
+  <div class="q-card fragment"><b>QUESTION 01</b><span data-edit>电荷间的<strong class="q-key">作用力</strong>与它们之间的<strong class="q-key">距离</strong>有什么关系？</span></div>
+  <div class="q-card fragment"><b>QUESTION 02</b><span data-edit>电荷间的<strong class="q-key">作用力</strong>与它们所带的<strong class="q-key">电荷量</strong>有什么关系？</span></div>
   <div class="finding fragment" data-edit><b>实验现象：</b><span class="finding-lines"><span>距离越近，作用力越大；</span><span>电荷量越大，作用力越大。</span></span></div>
  </div>
 </div></div><div class="page">02 / 10</div>
@@ -266,19 +274,19 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 <!-- === Slide 3：点电荷模型 === -->
 <section class="slide">
 <div class="chrome"><span><b>物理理想模型</b>　点电荷</span><span>MODEL</span></div>
-<div class="content"><div class="eyebrow model-eyebrow reveal-left">忽略次要因素，抓住主要矛盾</div><h2 class="fragment" data-step="2" data-edit>什么情况下，可以把带电体看成一个“点”？</h2>
+<div class="content"><div class="eyebrow model-eyebrow reveal-left">忽略次要因素，抓住主要矛盾</div><h2 class="fragment" data-step="3" data-edit>什么情况下，可以把带电体看成一个“点”？</h2>
 <div class="model-layout">
- <div class="model-visual fragment" data-step="1"><div class="real-body">实际带电体</div><div class="arrow transform"></div><div class="point-charge"></div><div class="point-charge-label">q</div><div class="compare-label"><span>复杂形状、大小、电荷分布</span><span>只保留电荷量与位置</span></div></div>
- <div class="definition fragment" data-step="3"><b>点电荷</b><p data-edit>当带电体间的距离比它们自身的大小大得多，以致形状、大小及电荷分布的影响可以忽略时，带电体可看作点电荷。</p></div>
+ <div class="model-visual"><div class="real-body">实际带电体</div><div class="source-label">复杂形状、大小、电荷分布</div><div class="arrow transform fragment" data-step="1"></div><div class="point-result fragment" data-step="2"><div class="point-charge"></div><div class="point-charge-label">q</div><div class="result-label">电荷量与位置</div></div></div>
+ <div class="definition fragment" data-step="4"><b>点电荷</b><p data-edit>当带电体间的距离比它们自身的大小大得多，以致形状、大小及电荷分布的影响可以忽略时，带电体可看作点电荷。</p></div>
 </div></div><div class="page">03 / 10</div>
 </section>
 
 <!-- === Slide 4：科学猜想 === -->
 <section class="slide">
-<div class="chrome"><span><b>科学猜想</b>　类比万有引力</span><span>ANALOGY</span></div>
+<div class="chrome"><span><b>科学猜想</b><span class="gravity-header">　类比万有引力</span></span><span>ANALOGY</span></div>
 <div class="content"><h2 class="fragment" data-step="2" data-edit>电荷间的力，也遵守相似规律吗？</h2>
 <div class="analogy">
- <div class="law-card fragment" data-step="1"><div class="law-name">万有引力</div><div class="law-formula"><span>F = G</span><span class="stacked-frac"><span class="frac-num">m₁m₂</span><span class="frac-den">r²</span></span></div></div>
+ <div class="law-card gravity-card fragment" data-step="1"><div class="law-name">万有引力</div><div class="law-formula"><span>F = G</span><span class="stacked-frac"><span class="frac-num">m₁m₂</span><span class="frac-den">r²</span></span></div></div>
  <div class="law-card orange-card fragment" data-step="4"><div class="law-name">静电力猜想</div><div class="law-formula"><span>F ∝</span><span class="stacked-frac"><span class="frac-num">q<sub class="math-sub">1</sub>q<sub class="math-sub">2</sub></span><span class="frac-den">r²</span></span><span>?</span></div></div>
 </div>
 <div class="guess">
@@ -303,7 +311,7 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 
 <!-- === Slide 6：扭秤实验（二） === -->
 <section class="slide">
-<div class="chrome"><span><b>库仑扭秤（二）</b>　平均电荷量</span><span>CHARGE</span></div>
+<div class="chrome"><span><b>库仑扭秤（二）</b>　平分电荷量</span><span>CHARGE</span></div>
 <div class="content"><h2 class="reveal-left d1" data-edit>没有电荷量仪表，如何按比例改变 q？</h2>
 <div class="balance-layout">
  <div class="split-visual fragment" data-step="1"><img src="assets/split.gif" alt="相同金属小球接触后电荷量平分的动态演示"></div>
@@ -375,7 +383,12 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 <div class="page">10 / 10</div>
 </section>
 
-</main></div>
+</main>
+<nav class="deck-controls" aria-label="幻灯片翻页">
+  <button type="button" id="prevSlide" aria-label="上一页" title="上一页（↑ / ←）">↑</button>
+  <button type="button" id="nextSlide" aria-label="下一页" title="下一页（↓ / →）">↓</button>
+</nav>
+</div>
 <div class="progress" id="progress"></div><div class="edit-hotzone"></div><button class="edit-toggle" id="editToggle" title="编辑模式（E）">✎</button><div class="toast" id="toast">编辑模式</div>
 <script src="GeoGebra/deployggb.js"></script>
 <script>
@@ -400,9 +413,9 @@ function ensureLawApplet(){
 
 /* === 演示控制器：保留顺滑换页与进度条 === */
 class SlidePresentation{
- constructor(){this.slides=[...document.querySelectorAll(".slide")];this.current=0;this.stage=document.getElementById("deckStage");this.progress=document.getElementById("progress");this.wheelLocked=false;this.touchX=0;this.finalTimer=null;this.scale();this.bind();this.show(0)}
+ constructor(){this.slides=[...document.querySelectorAll(".slide")];this.current=0;this.stage=document.getElementById("deckStage");this.progress=document.getElementById("progress");this.prevButton=document.getElementById("prevSlide");this.nextButton=document.getElementById("nextSlide");this.wheelLocked=false;this.touchX=0;this.finalTimer=null;this.scale();this.bind();this.show(0)}
  scale(){const fit=()=>{const s=Math.min(innerWidth/1920,innerHeight/1080),x=(innerWidth-1920*s)/2,y=(innerHeight-1080*s)/2;this.stage.style.transform=`translate(${x}px,${y}px) scale(${s})`};fit();addEventListener("resize",fit)}
- bind(){addEventListener("keydown",e=>{if(e.target.getAttribute&&e.target.getAttribute("contenteditable")==="true")return;if(["ArrowRight","ArrowDown"," ","PageDown"].includes(e.key)){e.preventDefault();this.next()}else if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();this.prev()}else if(e.key==="Home"||e.key.toLowerCase()==="r")this.show(0);else if(e.key==="End")this.show(this.slides.length-1)});addEventListener("wheel",e=>{if(this.wheelLocked||Math.abs(e.deltaY)<20)return;this.wheelLocked=true;e.deltaY>0?this.next():this.prev();setTimeout(()=>this.wheelLocked=false,520)},{passive:true});addEventListener("touchstart",e=>this.touchX=e.changedTouches[0].screenX,{passive:true});addEventListener("touchend",e=>{const dx=e.changedTouches[0].screenX-this.touchX;if(Math.abs(dx)>55)dx<0?this.next():this.prev()},{passive:true})}
+ bind(){this.prevButton.addEventListener("click",()=>this.prev());this.nextButton.addEventListener("click",()=>this.next());addEventListener("keydown",e=>{if(e.target.getAttribute&&e.target.getAttribute("contenteditable")==="true")return;if(["ArrowRight","ArrowDown"," ","PageDown"].includes(e.key)){e.preventDefault();this.next()}else if(["ArrowLeft","ArrowUp","PageUp"].includes(e.key)){e.preventDefault();this.prev()}else if(e.key==="Home"||e.key.toLowerCase()==="r")this.show(0);else if(e.key==="End")this.show(this.slides.length-1)});addEventListener("wheel",e=>{if(this.wheelLocked||Math.abs(e.deltaY)<20)return;this.wheelLocked=true;e.deltaY>0?this.next():this.prev();setTimeout(()=>this.wheelLocked=false,520)},{passive:true});addEventListener("touchstart",e=>this.touchX=e.changedTouches[0].screenX,{passive:true});addEventListener("touchend",e=>{const dx=e.changedTouches[0].screenX-this.touchX;if(Math.abs(dx)>55)dx<0?this.next():this.prev()},{passive:true})}
  show(n){clearTimeout(this.finalTimer);this.current=Math.max(0,Math.min(n,this.slides.length-1));this.slides.forEach((s,i)=>{s.classList.toggle("active",i===this.current);s.classList.toggle("visible",i===this.current);if(i===this.current)s.querySelectorAll(".fragment").forEach(f=>f.classList.remove("shown"))});this.progress.style.width=`${(this.current+1)/this.slides.length*100}%`;const page=this.current+1;sessionStorage.setItem("coulombs-law-C-current-slide",String(page));history.replaceState(null,"",`#${page}`)}
  next(){const hidden=[...this.slides[this.current].querySelectorAll(".fragment:not(.shown):not([data-auto])")].sort((a,b)=>(Number(a.dataset.step)||999)-(Number(b.dataset.step)||999));if(hidden.length){hidden[0].classList.add("shown");if(hidden[0].id==="ggb-law")ensureLawApplet();if(hidden[0].id==="finalAttraction"){clearTimeout(this.finalTimer);this.finalTimer=setTimeout(()=>{if(hidden[0].classList.contains("shown"))document.getElementById("finalFormula").classList.add("shown")},1200)}return}this.show(this.current+1)}
  prev(){clearTimeout(this.finalTimer);const shown=[...this.slides[this.current].querySelectorAll(".fragment.shown:not([data-auto])")].sort((a,b)=>(Number(a.dataset.step)||999)-(Number(b.dataset.step)||999));if(shown.length){const last=shown[shown.length-1];last.classList.remove("shown");if(last.id==="finalAttraction")document.getElementById("finalFormula").classList.remove("shown");return}if(this.current===0)return;this.show(this.current-1);this.slides[this.current].querySelectorAll(".fragment:not([data-auto])").forEach(f=>f.classList.add("shown"));if(this.slides[this.current].querySelector("#ggb-torsion"))ensureTorsionApplet();if(this.slides[this.current].querySelector("#ggb-law"))ensureLawApplet()}
