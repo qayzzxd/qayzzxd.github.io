@@ -212,7 +212,7 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 
 /* === Slide 7 定律 === */
 .law-layout{display:grid;grid-template-columns:1.18fr .82fr;gap:48px;margin-top:40px}.law-applet{height:585px}
-.law-title{display:flex;align-items:center;gap:48px}.law-title-formula{display:flex;align-items:center;gap:16px;font:900 58px var(--font-body);letter-spacing:0}.law-title-fraction{display:inline-grid;grid-template-rows:auto auto;text-align:center;line-height:1.05}.law-title-fraction span:first-child{padding:0 18px 8px;border-bottom:5px solid var(--ink)}.law-title-fraction span:last-child{padding-top:7px}.law-info{display:flex;flex-direction:column;gap:24px}.info-card{padding:29px 32px;border:3px solid var(--line);font-size:36px;line-height:1.45}.info-card b{font:700 24px var(--font-mono);color:var(--orange);display:block;margin-bottom:12px}.constant{background:var(--ink);color:var(--dark);font:900 36px/1.4 var(--font-body)}
+.law-title{display:flex;align-items:center;gap:48px}.law-title-formula{display:flex;align-items:center;gap:16px;font:900 58px var(--font-body);letter-spacing:0}.law-title-fraction{display:inline-grid;grid-template-rows:auto auto;text-align:center;line-height:1.05}.law-title-fraction>span:first-child{position:relative;padding:0 18px 8px;border-bottom:5px solid var(--ink)}.law-title-fraction>span:last-child{padding-top:7px}.absolute-bars{position:absolute;inset:0 7px 8px;transform:none}.absolute-bars:before,.absolute-bars:after{content:"";position:absolute;top:0;bottom:0;width:5px;background:currentColor}.absolute-bars:before{left:0}.absolute-bars:after{right:0}.law-info{display:flex;flex-direction:column;gap:24px}.info-card{padding:29px 32px;border:3px solid var(--line);font-size:36px;line-height:1.45}.info-card b{font:700 24px var(--font-mono);color:var(--orange);display:block;margin-bottom:12px}.constant{background:var(--ink);color:var(--dark);font:900 36px/1.4 var(--font-body)}
 
 /* === Slide 8 宏微观对比 === */
 .atom-layout{display:grid;grid-template-columns:640px 1fr;gap:58px;margin-top:35px}.atom{height:650px;position:relative;border:3px solid var(--line);overflow:hidden;background:radial-gradient(circle at 39% 50%,rgba(255,90,54,.08),transparent 42%)}.nucleus{position:absolute;left:105px;top:285px;width:145px;height:145px;background:var(--orange);color:var(--dark);border-radius:50%;display:grid;place-items:center;font:900 54px var(--font-display);z-index:3}.electron{position:absolute;right:82px;top:100px;width:28px;height:28px;background:var(--ink);color:var(--dark);border-radius:50%;display:grid;place-items:center;font:900 18px var(--font-display);z-index:3}
@@ -326,13 +326,13 @@ h2{font:900 76px/1.08 var(--font-body);letter-spacing:-3px;margin:0}
 <!-- === Slide 7：库仑定律 === -->
 <section class="slide">
 <div class="chrome"><span><b>COULOMB'S LAW</b></span><span>LAW</span></div>
-<div class="content"><h2 class="law-title reveal-left d1"><span>库仑定律</span><span class="law-title-formula"><span>F = k</span><span class="law-title-fraction"><span>|q<sub class="math-sub">1</sub>q<sub class="math-sub">2</sub>|</span><span>r²</span></span></span></h2>
+<div class="content"><h2 class="law-title reveal-left d1"><span>库仑定律</span><span class="law-title-formula"><span>F = k</span><span class="law-title-fraction"><span>q<sub class="math-sub">1</sub>q<sub class="math-sub">2</sub><i class="absolute-bars fragment" data-step="1" aria-hidden="true"></i></span><span>r²</span></span></span></h2>
 <div class="law-layout">
- <div class="ggb-embed law-applet fragment" data-step="1" id="ggb-law"></div>
+ <div class="ggb-embed law-applet fragment" data-step="2" id="ggb-law"></div>
  <div class="law-info">
-  <div class="info-card constant fragment" data-step="2"><b>静电力常量</b>k = 9.0 × 10⁹ N·m²/C²</div>
-  <div class="info-card fragment" data-step="3"><b>方向</b>同种电荷相斥，异种电荷相吸；力沿两点电荷连线。</div>
-  <div class="info-card fragment" data-step="4"><b>适用条件</b>① 真空中　② 静止点电荷</div>
+  <div class="info-card constant fragment" data-step="3"><b>静电力常量</b>k = 9.0 × 10⁹ N·m²/C²</div>
+  <div class="info-card fragment" data-step="4"><b>方向</b>同种电荷相斥，异种电荷相吸；力沿两点电荷连线。</div>
+  <div class="info-card fragment" data-step="5"><b>适用条件</b>① 真空中　② 静止点电荷</div>
  </div>
 </div></div><div class="page">07 / 10</div>
 </section>
